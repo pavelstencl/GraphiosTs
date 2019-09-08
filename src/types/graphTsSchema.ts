@@ -59,26 +59,26 @@ type RequestParser<T,K extends keyof T> = ReduceArray<T[K]> extends {[key:string
 /**
  * Alias type definition
  */
-type Alias<T extends GraphTsObject['payload']> = {
-    [K in keyof T]:T[K];
-} & {
+type Alias<D extends any,S extends GraphTsSchema> = {
     /**
      * `__type` GraphiosTs reserved variable. Indicates special behavior of the object.
     */
     __type:'alias'
+    payload:GraphTsInputValidation<D & S,S,true>
 };
 
 /**
  * Compares written input with provided schema and guards inacuracy or outdated GraphQl elements
  */
-export type GraphTsInputValidation<D extends any,S extends GraphTsSchema> = S extends {[key:string]:any}?{
+export type GraphTsInputValidation<D extends any,S extends GraphTsSchema,E extends boolean> = S extends {[key:string]:any}?{
     [K in keyof D]:
         K extends 'args'?Required<S>[K]:
+        K extends '__type'?D[K]:
         K extends string?
             D[K] extends {[key:string]:any}?
                 Required<S>[K] extends {[key:string]:any}?
-                GraphTsInputValidation<D[K],Required<S>[K]>:
-                TypeExist<S,K> extends never?Alias<S>:
+                GraphTsInputValidation<D[K],Required<S>[K],false>:
+                TypeExist<S,K> extends never?E extends false?Alias<D[K]['payload'],S>:never:
                 never:
             TypeExist<S,K> extends never?never:D[K]:
             never;
@@ -89,7 +89,7 @@ export type GraphTsInputValidation<D extends any,S extends GraphTsSchema> = S ex
  */
 
 type AliasItem<T,S> = PickFromObject<S,Exclude<[keyof T][0],'__type'>>;
-type AliasResult<T,S> = Define<AliasItem<T,S>> extends GraphTsSchema?ConditionalOptional<AliasItem<T,S>,GraphTsResponse<AliasItem<T,T>,Define<AliasItem<T,S>>>>:never;
+type AliasResult<T extends GraphTsObject,S> = Define<AliasItem<T['payload'],S>> extends GraphTsSchema?ConditionalOptional<AliasItem<T['payload'],S>,GraphTsResponse<AliasItem<T['payload'],T['payload']>,Define<AliasItem<T['payload'],S>>>>:never;
 
 
 export type GraphTsResponse<T extends GraphTsObject,S extends GraphTsSchema> = S extends GraphTsObject?GraphTsResult<T['payload'],S['payload']>:S;

@@ -6,12 +6,28 @@ const graphios = new GraphiosTs<swapiSchema>(Axios.create()).create('query','Fil
 .request({
     'payload':{
         'id':true,
-        'characters':{
-            'payload':{
-                'eyeColor':true
+        'newCharacter':{
+            __type:'alias',
+            payload:{
+                'characters':{
+                    'payload':{
+                        'homeworld':{
+                            'payload':{
+                                'bullshit':{
+                                    __type:'alias',
+                                    payload:{
+                                        'gravity':true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }).then((data)=>{
-    data.characters[0].eyeColor
+    if(data.newCharacter[0].homeworld){
+        data.newCharacter[0].homeworld.bullshit
+    }
 })

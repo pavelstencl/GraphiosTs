@@ -1,3 +1,5 @@
+![Logo](https://github.com/pavelstencl/GraphiosTs/blob/master/media/logo.png "Logo")
+
 # GraphiosTs
 Typescript GraphQl client built on top of Axios.
 ____

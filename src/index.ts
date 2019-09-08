@@ -44,8 +44,8 @@ export class GraphiosTsRequest<S extends GraphTsSchema> {
         this._payload = [{}];
         this.graphiosTsCallback = graphiosTsCallback;
     }
-    //GraphTsInputValidation<T,GraphTsRequest<S>> & 
-    public request<T>(payload:GraphTsInputValidation<T,GraphTsRequest<S>> & GraphTsRequest<S>):Promise<GraphTsResponse<T,S>>{
+    //GraphTsInputValidation<T,GraphTsRequest<S>> &  
+    public request<T>(payload:GraphTsInputValidation<T,GraphTsRequest<S>,false> & GraphTsRequest<S>):Promise<GraphTsResponse<T,S>>{
         return new Promise((resolve,reject)=>{
             resolve(payload as unknown as GraphTsResponse<T,S>);
         })
