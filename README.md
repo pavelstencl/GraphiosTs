@@ -10,5 +10,9 @@ Typescript GraphQl client built on top of Axios.
 - Guards validity of written query ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example1.gif)).
 - Guards changes on a GraphQL schema (with TS-lint).
 - Returns strongly typed response based on a query ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example2.gif)).
-- Can be combined with GraphiosTsCmd, which downloads GraphQl schema and transforms it to GraphiosTs compatible TS types.
+- GraphiosTS schema can be synced with GraphQL server schema via GraphiosTsCmd (UPDATE TO GIT NEEDED).
+- Supports GraphQl Aliases ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example4.gif)) and Inline Fragments ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example3.gif))
+
+## Motivation
+
 

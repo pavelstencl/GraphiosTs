@@ -1,33 +1,29 @@
 import { GraphiosTs } from './index';
 import swapiSchema from '../.gql/swapi.graphql';
 import Axios from 'axios';
+import {isFragment} from './utils/isFragment'
 
-const graphios = new GraphiosTs<swapiSchema>(Axios.create()).create('query','Film')
-.request({
+function payload(withDirector:boolean){
+    return {
+        id:true,
+        director:withDirector
+    }
+}
+
+const graphios = new GraphiosTs<swapiSchema>(Axios.create()).create('query','Film').request({
+    'args':{
+        'id':'foo',
+        'title':'bar'
+    },
     'payload':{
         'id':true,
-        'newCharacter':{
+        'dir':{
             __type:'alias',
-            payload:{
-                'characters':{
-                    'payload':{
-                        'homeworld':{
-                            'payload':{
-                                'bullshit':{
-                                    __type:'alias',
-                                    payload:{
-                                        'gravity':true
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            'payload':{
+                'director':true
             }
         }
     }
 }).then((data)=>{
-    if(data.newCharacter[0].homeworld){
-        data.newCharacter[0].homeworld.bullshit
-    }
+    data.dir
 })
