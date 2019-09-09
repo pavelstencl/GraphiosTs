@@ -92,7 +92,7 @@ describe('GraphQL request compiling tests',()=>{
             'payload':{
                 'id':true
             }
-        }).alias('Test').parse();
-        expect(res).toBe('query{Test:Film{id}}');
+        }).alias('Test').operationName('TestOperation').parse();
+        expect(res).toBe('query TestOperation {Test:Film{id}}');
     });
 })
