@@ -26,7 +26,7 @@ type Scalars = string | number | boolean | null;
  * * `__type.fragment` indicates object is an inline fragment and should be compiled in this way.
  * * `__type.alias` is alias for selected payload. IMPORTANT: Only first element in payload is used as an alias. Others are ignored.
  */
-type GraphTsObject = {
+export type GraphTsObject = {
     payload?:WithArray<{[key:string]:any} | Scalars>;
     args?:{[key:string]:any};
     __type?:'fragment' | 'alias'
@@ -92,8 +92,9 @@ type AliasItem<T,S> = PickFromObject<S,Exclude<[keyof T][0],'__type'>>;
 type AliasResult<T extends GraphTsObject,S> = Define<AliasItem<T['payload'],S>> extends GraphTsSchema?ConditionalOptional<AliasItem<T['payload'],S>,GraphTsResponse<AliasItem<T['payload'],T['payload']>,Define<AliasItem<T['payload'],S>>>>:never;
 
 
+
 export type GraphTsResponse<T extends GraphTsObject,S extends GraphTsSchema> = S extends GraphTsObject?GraphTsResult<T['payload'],S['payload']>:S;
-export type GraphTsResult<T extends GraphTsObject['payload'],S extends GraphTsObject['payload']> = S extends {[key:string]:any}?
+type GraphTsResult<T extends GraphTsObject['payload'],S extends GraphTsObject['payload']> = S extends {[key:string]:any}?
 T extends {[key:string]:never}?never:
 ConditionalArray<{
     [K in keyof T]:
@@ -102,16 +103,6 @@ ConditionalArray<{
         T[K] extends GraphTsSchema?ConditionalOptional<PickFromObject<ReduceArray<S>,K>,GraphTsResponse<ReduceArray<T>[K],Define<PickFromObject<ReduceArray<S>,K>>>>:
         AliasResult<T[K],ReduceArray<S>>
 },S>:S;
-/*
-export type GraphTsResponse<T extends GraphTsObject,S extends GraphTsSchema> = S extends GraphTsObject?GraphTsResult<T['payload'],S['payload']>:S;
-export type GraphTsResult<T extends GraphTsObject['payload'],S extends GraphTsObject['payload']> = S extends {[key:string]:any}?ConditionalArray<{
-    [K in keyof T]:
-        T[K] extends boolean?ConditionalOptional<PickFromObject<ReduceArray<S>,K>,Define<PickFromObject<ReduceArray<S>,K>>>:
-        T[K] extends {__type:'fragment',payload?:any,args?:any}?ConditionalOptional<PickFromObject<ReduceArray<S>,K>,GraphTsResponse<ReduceArray<T>[K],Define<PickFromObject<ReduceArray<S>,K>>>>|void:
-        T[K] extends GraphTsSchema?ConditionalOptional<PickFromObject<ReduceArray<S>,K>,GraphTsResponse<ReduceArray<T>[K],Define<PickFromObject<ReduceArray<S>,K>>>>:
-        never
-},S>:S;
-*/
 
 
 /**
@@ -124,7 +115,7 @@ type ReduceArray<A> = A extends any[]?A[1]:A;
 /**
  * It will add an array. If type is already the array. It will create multi-array.
  */
-type WithArray<T> = T | T[];
+export type WithArray<T> = T | T[];
 /**
  * Detects if name of type is defined in a GraphTs schema.
  */

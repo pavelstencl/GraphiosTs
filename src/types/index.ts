@@ -14,3 +14,16 @@ export type GraphiosTsSettings = {
      */
     batchBuffer:number;
 }
+
+export type Str<T> = T extends string?T:string;
+
+export type GraphQlError = {
+    locations:{
+        line:number;
+        column:number;
+    }[],
+    path:any[],
+    message:string,
+    extensions?:{[key:string]:any}
+    [key:string]:any
+}

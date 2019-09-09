@@ -2,16 +2,18 @@
 
 # GraphiosTs
 Typescript GraphQl client built on top of Axios.
+![Example](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example.gif "Basic example")
 
 ## Features
 - Communicates with GraphQl server.
 - Has all features of Axios js client - [GitHub](https://github.com/axios/axios).
-- Uses one GraphQl schema (translated to TS) as single source of truth.
-- Guards validity of written query ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example1.gif)).
-- Guards changes on a GraphQL schema (with TS-lint).
-- Returns strongly typed response based on a query ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example2.gif)).
-- GraphiosTS schema can be synced with GraphQL server schema via GraphiosTsCmd (UPDATE TO GIT NEEDED).
-- Supports GraphQl Aliases ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example4.gif)) and Inline Fragments ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example3.gif))
+- Eliminates multiple sources of truth (One schema for everything).
+- Provides strongly typed GraphQl Operations constructor (query, mutation, subscription) ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example1.gif)).
+- Provides strongly typed responses ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example2.gif)).
+- GraphQL schema can be downloaded from server and translated to GraphiosTs schema via GraphiosTsCmd (UPDATE TO GIT NEEDED).
+- Supports all basic GraphQl actions.
+- Supports GraphQl Aliases ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example4.gif)) and Inline Fragments ([Visualisation](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example3.gif)).
+- Eliminates need of GraphQL Basic Fragments , Directives and Conditions (GraphiosTs is simple JSON object, so you can apply standard JS operations on it, like conditioning, separation of pieces to the varables, etc.)
 
 ## Motivation
 

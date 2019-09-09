@@ -2,15 +2,16 @@
     "compilerOptions": {
       "declaration": true,
       "declarationDir": "./dist",
-      "module": "es2015",
+      "module": "es6",
       "strictNullChecks": true,
       "outDir": "./dist",
-      "target": "es2015",
+      "target": "es5",
       "moduleResolution": "node",
-      "esModuleInterop":true
+      "esModuleInterop":true,
+      "noImplicitAny": false
     },
     "include": [
-        "src/*", "src/types/types.ts"
+        "src/**/*"
     ],
     "exclude": ["node_modules"]
 }
