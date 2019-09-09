@@ -9,7 +9,11 @@ GraphiosTs translates GraphQl schema into GraphiosTs (TypeScript) schema. This s
 
 This package does not try to compete Apollo ecosystem. Our main goal was to build simple, lightweight, strongly typed graphql client, which can be used in APIs, where every byte of boundle size counts. If you want full featured GraphQl client with tons of extensions and you don't care about size, take [Apollo-client](https://github.com/apollographql/apollo-client), which provides an TypeScript extension as well.
 
+
+
 ![Example](https://github.com/pavelstencl/GraphiosTs/blob/master/media/example.gif "Basic example")
+
+
 
 ## Features
 - Communicates with GraphQl server.
