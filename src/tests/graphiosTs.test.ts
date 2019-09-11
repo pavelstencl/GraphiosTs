@@ -8,6 +8,7 @@ let axios = Axios.create({
     method:'POST'
 });
 let gts = new GraphiosTs<swapiGraphiosTs>(axios), mock:Mock;
+/*
 describe('Test connection',()=>{
     beforeAll(()=>{
         mock = new Mock(axios);
@@ -33,4 +34,4 @@ describe('Test connection',()=>{
             done();
         })
     })
-})
+})*/

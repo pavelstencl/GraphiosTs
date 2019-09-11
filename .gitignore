@@ -4,4 +4,5 @@
 /node_modules/
 example.ts
 /coverage/
-/.rpt2_cache/
+#/.rpt2_cache/
+/.backup/

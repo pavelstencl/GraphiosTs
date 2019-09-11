@@ -1,7 +1,8 @@
-import { GraphTsOperationsList } from "./types/graphTsSchema";
 import { Str, GraphiosTsSettings, GraphTsQueue, GraphiosTsRequestSettings } from "./types";
-import { AxiosInstance } from "axios";
+import Axios, { AxiosInstance } from "axios";
 import { GraphiosTsRequest } from "./graphiosTsRequest";
+import { GraphTsPayload, GraphTsSchema } from "./types/schema";
+import swapiGraphiosTs from "../.gql/swapi.graphql";
 
 /**
  * GraphiosTs instance holding connection with one server entrypoint.
@@ -10,7 +11,7 @@ import { GraphiosTsRequest } from "./graphiosTsRequest";
  * For more information visit [GitHub](https://github.com/pavelstencl/GraphiosTs)
  */
 
-export class GraphiosTs<T extends GraphTsOperationsList>{
+export class GraphiosTs<T extends GraphTsSchema>{
     private queue:GraphTsQueue
     /**
      * @param axios Instance of Axios. For more information visit [GitHub](https://github.com/axios/axios)
@@ -28,10 +29,9 @@ export class GraphiosTs<T extends GraphTsOperationsList>{
     /**
      * Creates new request object.
      * @param operation name of GraphQl operation type
-     * @param name name of GraphTs Schema
      */
-    public create<U extends keyof T,K extends keyof T[U]>(operation:U,name:Str<K>){
-        return new GraphiosTsRequest<T[U][K],any,Str<K>>(name,operation as keyof GraphTsOperationsList,this.__req.bind(this));
+    public create<U extends keyof T>(operation:U,name?:string){
+        return new GraphiosTsRequest<T[U],any>(name,operation,this.__req.bind(this));
     }
     /**
      * Callback method for GraphiosTsRequest class
@@ -50,7 +50,7 @@ export class GraphiosTs<T extends GraphTsOperationsList>{
             throw new Error('')
         }
     }
-    private request(query:string,type:string,settings?:GraphiosTsRequestSettings){
+    private request(query:string,type:string | symbol | number,settings?:GraphiosTsRequestSettings){
         let axiosConfig = this.mergeSettings(settings);
         axiosConfig.headers = {...axiosConfig.headers,...{'Content-Type':this.settings? this.settings.contentType:'application/json'}};
         axiosConfig.data = {[type]:query};

@@ -39,7 +39,7 @@ export type GraphQlError = {
 }
 
 export type GraphTsQueue = {
-    query:GraphiosTsRequest<any,any,any>[];
-    mutation:GraphiosTsRequest<any,any,any>[];
-    subscription:GraphiosTsRequest<any,any,any>[];
+    query:GraphiosTsRequest<any,any>[];
+    mutation:GraphiosTsRequest<any,any>[];
+    subscription:GraphiosTsRequest<any,any>[];
 }

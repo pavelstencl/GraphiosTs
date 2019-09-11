@@ -1,23 +1,23 @@
 import { JSON_ARGS_TO_GQL_REGEXP } from "./config";
-import { GraphTsObject, GraphTsInputValidation, GraphTsRequest, GraphTsOperationsList, GraphTsResponse, GraphTsSchema } from "./types/graphTsSchema";
 import { GraphQlError, GraphiosTsRequestSettings } from "./types";
+import { GraphTsPayload, RequestPayload, Validate, GraphTsSchema, ResultPayload, GraphTsObject } from "./types/schema";
 
-export class GraphiosTsRequest<S extends GraphTsSchema,X,N extends string> {
+
+
+export class GraphiosTsRequest<S extends GraphTsPayload,X> {
     //Stores payload
     private _payload:X;
-    private graphiosTsCallback:(req:GraphiosTsRequest<S,X,N>)=>Promise<{data:{[P in N]:GraphTsResponse<X,S>}|null;errors?:GraphQlError}>;
-    private _alias:string;
-    private _operationName:string;
     public settings?:GraphiosTsRequestSettings;
-    constructor(private name:N,public operation:keyof GraphTsOperationsList,graphiosTsCallback){
-        this.name = name;
-        this.operation = operation;
+    public operation:'query'|'mutation'|'subscription';
+    constructor(public _name:string | undefined,operation:string | symbol | number,private graphiosTsCallback){
+        this._name = _name;
+        this.operation = operation.toString() as 'query'|'mutation'|'subscription';
         this.graphiosTsCallback = graphiosTsCallback;
     }
     /**
      * Sends request to a server
      */
-    public request(settings?:GraphiosTsRequestSettings){
+    public request(settings?:GraphiosTsRequestSettings):Promise<{data?:ResultPayload<X,S>;errors?:GraphQlError}>{
         this.settings = settings;
         return this.graphiosTsCallback(this);
     }
@@ -25,18 +25,10 @@ export class GraphiosTsRequest<S extends GraphTsSchema,X,N extends string> {
      * GraphiosTs request data constructor
      * @param payload 
      */
-    public gql<T>(payload:GraphTsInputValidation<T,GraphTsRequest<S>,false> & GraphTsRequest<S>):GraphiosTsRequest<S,T,N>{
+    public gql<T>(payload:T & RequestPayload<S> & Validate<T,RequestPayload<S>>){
         //@ts-ignore
         this._payload = payload;
-        return this as unknown as GraphiosTsRequest<S,T,N>;
-    }
-    /**
-     * Unique name the operation for easier debuging
-     * @param name 
-     */
-    public operationName(name:string):this{
-        this._operationName = name;
-        return this;
+        return this as unknown as GraphiosTsRequest<S,T>;
     }
     /**
      * Creates GraphQl command string
@@ -44,35 +36,33 @@ export class GraphiosTsRequest<S extends GraphTsSchema,X,N extends string> {
      */
     public parse(partial?:boolean):string{
         const data = this._payload;
+        if(data && typeof data === 'object' && ! Array.isArray(data) && data !== null){
+            const out:string[] = [];
+            for (const key in data) {
+                out.push(this.resolveObject(data[key] as unknown as GraphTsObject,key));
+            }
+            if(partial === true){
+                return out.join(',');
+            }
+            else{
+                return this.operation+(this._name?' '+this._name:'')+'{'+out.join(',')+'}';
+            }
+        }else{
+            throw TypeError('Data mismatch. Gql payload has to be a plain object');
+        }
+        /*
         if(typeof data === 'object' && ! Array.isArray(data) && data !== null){
             return !partial? this.getOperationName()+"{"+this.resolveObject(data as GraphTsObject,this.getName())+"}":this.resolveObject(data as GraphTsObject,this.getName());
         }else{
             return !partial? this.getOperationName()+"{"+this.getName()+"}":this.getName();
-        }
-    }
-    private getOperationName(){
-        return this._operationName?this.operation+" "+(this._operationName)+" ":this.operation;
-    }
-    /**
-     * Returns name or aliased name
-     */
-    private getName(){
-        return this._alias?this._alias+":"+this.name:this.name;
-    }
-    /**
-     * Gives alias to the command.
-     * @param al Alias name
-     */
-    public alias<T extends string>(al:T):GraphiosTsRequest<S,X,T>{
-        this._alias = al;
-        return this as unknown as GraphiosTsRequest<S,X,T>;
+        }*/
     }
     /**
      * Compiles GraphTsObject to GraphQl command string
      * @param obj 
      * @param name 
      */
-    private resolveObject(obj:GraphTsObject,name:string){
+    private resolveObject(obj:GraphTsObject,name:string):string{
         //Name definition
         let out = name;
         if(obj.__type){

@@ -5,38 +5,42 @@ import swapiGraphiosTs from "../../.gql/swapi.graphql";
 
 let gTs = new GraphiosTs<swapiGraphiosTs>(Axios.create());
 describe('GraphQL request compiling tests',()=>{
-    it('should compile simle request',()=>{
-        const res = gTs.create('query','Film').gql({
-            'args':{
-                'id':'cj0nxmy3fga5s01148gf8iy3c',
-                'title':'A New Hope'
-            },
-            'payload':{
-                'id':true,
-                'characters':{
-                    'payload':{
-                        'eyeColor':true
+    it('Compiles basic request to GraphQl syntax',()=>{
+        const res = gTs.create('query','SpecificFilm').gql({
+            'Film':{
+                'args':{
+                    'id':'cj0nxmy3fga5s01148gf8iy3c',
+                    'title':'A New Hope'
+                },
+                'payload':{
+                    'id':true,
+                    'characters':{
+                        'payload':{
+                            'eyeColor':true
+                        }
                     }
                 }
             }
         }).parse();
-        expect(res).toBe('query{Film(id:"cj0nxmy3fga5s01148gf8iy3c",title:"A New Hope"){id,characters{eyeColor}}}');
+        expect(res).toBe('query SpecificFilm{Film(id:"cj0nxmy3fga5s01148gf8iy3c",title:"A New Hope"){id,characters{eyeColor}}}');
     });
-    it('compiles aliased query',()=>{
-        const res = gTs.create('query','allFilms').gql({
-            'payload':{
-                'test':{
-                    __type:'alias',
-                    'payload':{
-                        'characters':{
-                            'args':{
-                                'first':2
-                            },
-                            'payload':{
-                                'gen':{
-                                    '__type':'alias',
-                                    'payload':{
-                                        'gender':true
+    it('Compiles request with aliased objects',()=>{
+        const res = gTs.create('query').gql({
+            'allFilms':{
+                'payload':{
+                    'test':{
+                        __type:'alias',
+                        'payload':{
+                            'characters':{
+                                'args':{
+                                    'first':2
+                                },
+                                'payload':{
+                                    'gen':{
+                                        '__type':'alias',
+                                        'payload':{
+                                            'gender':true
+                                        }
                                     }
                                 }
                             }
@@ -47,23 +51,25 @@ describe('GraphQL request compiling tests',()=>{
         }).parse();
         expect(res).toBe('query{allFilms{test:characters(first:2){gen:gender}}}');
     });
-    it('compiles fragmented query',()=>{
-        const res = gTs.create('query','node').gql({
-            'args':{
-                'id':'cj0nxmy3fga5s01148gf8iy3c'
-            },
-            'payload':{
-                '__typename':true,
-                '__onFilm':{
-                    '__type':'fragment',
-                    'payload':{
-                        'id':true,
-                        'characters':{
-                            'args':{
-                                'last':2
-                            },
-                            'payload':{
-                                'gender':true
+    it('Compiles request with inline fragments',()=>{
+        const res = gTs.create('query').gql({
+            'node':{
+                'args':{
+                    'id':'cj0nxmy3fga5s01148gf8iy3c'
+                },
+                'payload':{
+                    '__typename':true,
+                    '__onFilm':{
+                        '__type':'fragment',
+                        'payload':{
+                            'id':true,
+                            'characters':{
+                                'args':{
+                                    'last':2
+                                },
+                                'payload':{
+                                    'gender':true
+                                }
                             }
                         }
                     }
@@ -72,27 +78,78 @@ describe('GraphQL request compiling tests',()=>{
         }).parse();
         expect(res).toBe('query{node(id:"cj0nxmy3fga5s01148gf8iy3c"){__typename,...on Film{id,characters(last:2){gender}}}}');
     });
-    it('escapes dangerous strings',()=>{
-        const res = gTs.create('query','Film').gql({
-            'args':{
-                'id':'123',
-                'title':`{"foo":["\n","\\","{\"zig\":\"giz\"}"]}`
-            },
-            'payload':true
+    it('Escapes dangerous chars in args',()=>{
+        const res = gTs.create('query').gql({
+            'Film':{
+                'args':{
+                    'id':'123',
+                    'title':`{"foo":["\n","\\","{\"zig\":\"giz\"}"]}`
+                },
+                'payload':true
+            }
         }).parse();
         expect(res).toEqual('query{Film(id:\"123\",title:\"{\\\"foo\\\":[\\\"\\n\\\",\\\"\\\\\\\",\\\"{\\\"zig\\\":\\\"giz\\\"}\\\"]}\")}');
     });
-    it('returns simpliest query',()=>{
-        //@ts-ignore
-        const res = new GraphiosTs(Axios.create()).create('query','Test').gql(true).parse();
+    it('Compiles simpliest request without any payload.',()=>{
+        const res = new GraphiosTs(Axios.create()).create('query').gql({
+            //@ts-ignore
+            'Test':true
+        }).parse();
         expect(res).toBe('query{Test}');
     });
-    it('parse query with aliased name',()=>{
-        const res = gTs.create('query','Film').gql({
-            'payload':{
-                'id':true
+    it('Compiles request with multiple operations',()=>{
+        const res = gTs.create('query').gql({
+            'allFilms':{
+                'payload':{
+                    'id':true
+                }
+            },
+            'allPersons':{
+                'payload':{
+                    'eyeColor':true
+                }
             }
-        }).alias('Test').operationName('TestOperation').parse();
-        expect(res).toBe('query TestOperation {Test:Film{id}}');
+        }).parse();
+        expect(res).toBe('query{allFilms{id},allPersons{eyeColor}}');
     });
+    it('Compiles complex request with all features',()=>{
+        const res = gTs.create('query','ComplexQuery').gql({
+            'films':{
+                __type:'alias',
+                payload:{
+                    'allFilms':{
+                        'payload':{
+                            'badGuy':{
+                                __type:'alias',
+                                payload:{
+                                    'director':true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            'node':{
+                'args':{
+                    'id':'cj0nxmy3xga5u0114fbqads8y',
+                },
+                'payload':{
+                    '__typename':true,
+                    '__onFilm':{
+                        '__type':'fragment',
+                        'payload':{
+                            'director':true
+                        }
+                    },
+                    '__onPerson':{
+                        '__type':'fragment',
+                        'payload':{
+                            'eyeColor':true
+                        }
+                    }
+                }
+            }
+        }).parse();
+        expect(res).toBe('query ComplexQuery{films:allFilms{badGuy:director},node(id:"cj0nxmy3xga5u0114fbqads8y"){__typename,...on Film{director},...on Person{eyeColor}}}');
+    })
 })
