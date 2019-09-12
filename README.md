@@ -1,12 +1,12 @@
-![Logo](media/logo.png "Logo")
+[![Logo](media/logo.png "Logo")](#graphiosts)
 
 # GraphiosTs
 [![npm version](https://badgen.net/npm/v/graphios-ts)](https://www.npmjs.com/package/graphios-ts)
-![gzip size](https://badgen.net/bundlephobia/minzip/graphios-ts)
+[![gzip size](https://badgen.net/bundlephobia/minzip/graphios-ts)](https://bundlephobia.com/result?p=graphios-ts)
 
 GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **What you write, you will get**.
 
-![Typings example](media/preview.gif "Typings example")
+[![Typings example](media/preview.gif "Typings example")](#features)
 
 ## Motivation
 
