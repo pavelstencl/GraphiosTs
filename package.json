@@ -12,9 +12,15 @@
     "build": "rollup -c",
     "watch": "rollup -cw",
     "test": "node jest.config.js & jest",
-    "coverage": "node jest.config.js & jest --coverage"
+    "coverage": "node jest.config.js & jest --coverage --coverageReporters=text-lcov | coveralls"
   },
-  "keywords":["GraphQl","client","TypeScript","GraphiosTs","Axios"],
+  "keywords": [
+    "GraphQl",
+    "client",
+    "TypeScript",
+    "GraphiosTs",
+    "Axios"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pavelstencl/GraphiosTs"
@@ -32,6 +38,7 @@
     "@types/moxios": "^0.4.9",
     "@types/ts-nameof": "^3.2.0",
     "axios-mock-adapter": "^1.17.0",
+    "coveralls": "^3.0.6",
     "eslint": "^6.3.0",
     "jest": "^24.9.0",
     "rollup": "^1.21.0",
