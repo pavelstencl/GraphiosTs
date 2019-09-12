@@ -14,7 +14,7 @@ GraphiosTs is TypeScript based GraphQl client built as an extension of Axios pac
 
 In the real world of programming, most of APIs, combines GraphQL and REST requests, so you need two separate clients. It puts complexity to handle two clients with similar settings and it is increasing bundle size. With GraphiosTs, you can share this logic with Axios via settings and interceptors. You have one client for both REST and GraphQl requests.
 
-GraphiosTs translates GraphQl schema into GraphiosTs (TypeScript) schema. This schema is used for validation of graphql commands and compilation of result based on a command you write. Since GraphiosTs schema holds whole GraphQl logic of your endpoint, there is no need to run compilation every time, some GraphQl command has been changed in a script. With **[GraphiosTsCmd](https://github.com/pavelstencl/graphiosts-cmd)** (downloads schema and translates it to GraphiosTs schema) you have only one source of truth... The server one. Every time GraphQl schema on the server will change, you can update GraphiosTs schema via command and Typescript will show you if something is wrong or incompatible.
+GraphiosTs translates GraphQl schema into GraphiosTs (TypeScript) schema. This schema is used for validation of graphql commands and compilation of result based on a command you write. Since GraphiosTs schema holds whole GraphQl logic of your endpoint, there is no need to run compilation every time, some GraphQl command has been changed in a script. With **[GraphiosTs-Cmd](https://github.com/pavelstencl/graphiosts-cmd)** (downloads schema and translates it to GraphiosTs schema) you have only one source of truth... The server one. Every time GraphQl schema on the server will change, you can update GraphiosTs schema via command and Typescript will show you if something is wrong or incompatible.
 
 This package does not try to compete Apollo ecosystem. Our main goal was to build simple, lightweight, strongly typed graphql client, which can be used in APIs, where every byte of boundle size counts. If you want full featured GraphQl client with tons of extensions and you don't care about size, take [Apollo-client](https://github.com/apollographql/apollo-client), which provides TypeScript definitions for results as well.
 
@@ -31,7 +31,7 @@ This package does not try to compete Apollo ecosystem. Our main goal was to buil
 - - Strongly typed request constructor.
 - - Generates strongly typed response from request constructor.
 - - Uses only one schema -> single source of truth.
-- - GraphQL schema can be downloaded from server and translated to GraphiosTs schema with [GraphiosTsCmd](https://github.com/pavelstencl/graphiosts-cmd).
+- - GraphQL schema can be downloaded from server and translated to GraphiosTs schema with [GraphiosTs-Cmd](https://github.com/pavelstencl/graphiosts-cmd).
 - **Advanced requests**
 - - Supports batched requests (multiple requests merged into one).
 - - In next version we plan to add cache functionality as module.
@@ -39,6 +39,7 @@ This package does not try to compete Apollo ecosystem. Our main goal was to buil
 ## Pitfalls
 ### Missing features of GraphQl
 GraphiosTs was designed to be strongly typed through Typescript only and there are some pitfalls in this approach. **Currently GraphiosTs does not support Directives and Variables. But this can be resolved with pure JavaScript functions, because of nature of GraphiosTs request, which is simple JS object**. 
+GraphiosTs does not support Subscriptions yet. We are planning to implement it in near feature.
 ### TypeScript
 Inline Fragments are working properly, but when you use `isFragment` helper method, fake fragment definitions are still present. Those definitions are TypeSafed, so they can never occure, but for readability of definition, you have to use `getFragment` helper method to get really typesafed definition.
 
@@ -146,5 +147,101 @@ const gql = new GraphiosTs<swapiSchema>(Axios.create())
 ```
 
 More examples [here](https://github.com/pavelstencl/GraphiosTs/tree/master/examples)
+
+## Schema definition
+
+**We strongly suggest you to use *[GraphiosTs-Cmd](https://github.com/pavelstencl/graphiosts-cmd)* package, which is command line utility for conversion of serverside GraphQl schema to GraphiosTs schema. It keeps source of truth on server side, so maintaining of GraphQl requests is significantly easier.**
+
+### Basic Example
+```typescript
+//Schema object is root of definition from which you will access operations in GraphiosTs.
+export default interface ExampleSchema{
+    query:query;
+    //mutation:mutation;
+}
+
+//Query definitions
+type query = {
+    //Field definition
+    Film:{
+        //Optional field. It hold all arguments. If it is not optional, it will be required in the gql request.
+        args:{
+            //Required argument
+            id:string;
+            //Optional field argument
+            field?:{
+                next?:number
+            }
+        };
+        //Required field. It holds all Selection set of Gql
+        payload:films['payload']
+    };
+    Fragments:{
+        args:{
+            id:string;
+        };
+        payload:{
+            //Scalar common for all fragments
+            id:string;
+            //GraphQl special field indicates which fragment that object is
+            __typename:string;
+            //Declaration of fragment. It has special name syntax in a format __on<Name>
+            __onFilm:{
+                //Indicates it is a fragment
+                __type:'fragment';
+                //Payload
+                payload:films['payload'];
+            };
+            __onVehicle:{
+                __type:'fragment';
+                payload:vehicles['payload']
+            }
+        }
+    }
+}
+
+type films = {
+    args?:{
+        /**
+         * Year of release
+         */
+        older_than:string
+    }
+    payload:{
+        //Optional scalar. In response it will be string | undefined
+        id?:string;
+        //Scalar. This scalar indicates, that it will be always present in response > string
+        name:string;
+        //Field definition
+        actors:{
+            args?:{
+                first?:number;
+            },
+            payload:{
+                id:string;
+                nickname:string;
+            }
+        },
+        //Field defined elsewhere
+        vehicles:vehicles;
+    }
+}
+
+//Field does not have any arguments
+type vehicles = {
+    payload:{
+        manufacturer:string;
+        id:string;
+        //Link to films object
+        films:{
+            args:films['args'];
+            payload:films['payload']
+        }
+    }
+}
+```
+
+This is basic example of TypeScript representation of the GraphQl schema. For more detailed example you can go through swapi GraphiosTs schema [here](https://github.com/pavelstencl/GraphiosTs/blob/master/.gql/swapi.graphql.ts).
+
 
 
