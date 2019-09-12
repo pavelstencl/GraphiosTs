@@ -1,0 +1,6 @@
+{
+    "swapi":{
+        "url":"https://swapi.graph.cool",
+        "path":"./swapi.graphql.ts"
+    }
+}

@@ -1,5 +1,4 @@
 # ignore gql schema folder
-/.gql/
 /package-lock.json
 /node_modules/
 /coverage/

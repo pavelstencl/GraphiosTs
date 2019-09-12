@@ -135,7 +135,7 @@ const gql = new GraphiosTs<swapiSchema>(Axios.create())
         //Helper method for Type safe fragment definition
         const film = getFragment(data.node);
         //Type safed object.
-        console.log(film.director)
+        console.log(film.director);
     }
 });
 ```

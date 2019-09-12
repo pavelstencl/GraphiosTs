@@ -45,5 +45,5 @@ const gql = requestConstructor.gql({
 //Request
 gql.request().then((data)=>{
     //Response
-    console.log(data.Film.characters[0].gender)
+    console.log(data.Film.characters[0].gender);
 })
