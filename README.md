@@ -6,7 +6,7 @@
 [![gzip size](https://badgen.net/bundlephobia/minzip/graphios-ts)](https://bundlephobia.com/result?p=graphios-ts)
 [![Coverage Status](https://coveralls.io/repos/github/pavelstencl/GraphiosTs/badge.svg?branch=master)](https://coveralls.io/github/pavelstencl/GraphiosTs?branch=master)
 
-GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **What you write, you will get**.
+GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **You will get,what you typed**.
 
 [![Typings example](media/preview.gif "Typings example")](#features)
 
