@@ -56,6 +56,10 @@ npm install --save graphios-ts
 ### Bundle
 We do not provide package bundle, because of the TypeScript nature of package.
 
+## Interactive example
+Basic request example.
+[Swapi on Codesandbox](https://codesandbox.io/embed/silly-wind-gk1fp);
+
 ## Example
 Performing simple request
 ```typescript
