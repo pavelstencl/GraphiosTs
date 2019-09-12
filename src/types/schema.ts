@@ -1,5 +1,8 @@
 import swapiGraphiosTs from "../../.gql/swapi.graphql";
+import { GraphiosTs } from "..";
+import Axios from "axios";
 
+class FakeFrag{};
 type WithArray<T> = T extends any[]?T:T | T[];
 
 type Scalars = string | number | boolean | null | undefined;
@@ -63,8 +66,3 @@ type Payload<T> = T extends {[key:string]:string}?{
 }:T
 type isPayload<T>=T extends GraphTsPayload[]?T[1]:T extends GraphTsPayload?T:never;
 type ResultObject<T extends RequestObject<any>,S extends GraphTsObject> = S extends GraphTsObject?ConditionalArray<ResultPayload<T['payload'],isPayload<S['payload']>>,S['payload']>:S['payload'];
-
-
-function query<T>(payload:T & RequestPayload<swapiGraphiosTs['query']> & Validate<T,RequestPayload<swapiGraphiosTs['query']>>):ResultPayload<T,swapiGraphiosTs['query']>{
-    return payload as unknown as ResultPayload<T,swapiGraphiosTs['query']>;
-}

@@ -16,13 +16,26 @@ export type GraphiosTsSettings = {
      */
     batchBuffer?:number;
     /**
+     * Timeframe when Graphios will wait if another requests will not occure in a queue. 10ms is default value.
+     */
+    batchTimeout?:number;
+    /**
      * Type of content
      */
     contentType?:'application/json' | string;
     /**
      * Axios settings. These settings will be merged with query settings and pased to the Axios. If axios has any default setting, this can override it.
      */
-    axios?:AxiosRequestConfig
+    axios?:AxiosRequestConfig;
+    /**
+     * If server returns status >= 500, it will try again.
+     * This specifies how many times should it try. If 0, it will not refetch at all.
+     */
+    refetch?:number;
+    /**
+     * Pause in ms before another refetch try.
+     */
+    refetchPause?:number;
 }
 
 export type Str<T> = T extends string?T:string;
@@ -38,8 +51,13 @@ export type GraphQlError = {
     [key:string]:any
 }
 
+export type GraphTsQueueItem = {
+    resolve:(val:any)=>any;
+    reject:(val:any)=>any;
+    req:GraphiosTsRequest<any,any>
+}
 export type GraphTsQueue = {
-    query:GraphiosTsRequest<any,any>[];
-    mutation:GraphiosTsRequest<any,any>[];
-    subscription:GraphiosTsRequest<any,any>[];
+    query:GraphTsQueueItem[];
+    mutation:GraphTsQueueItem[];
+    subscription:GraphTsQueueItem[];
 }

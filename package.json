@@ -1,6 +1,6 @@
 {
   "name": "graphios-ts",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Strongly typed GraphQl client built on top of Axios.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -11,7 +11,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -cw",
-    "test": "node jest.config.js & jest --coverage"
+    "test": "node jest.config.js & jest",
+    "coverage": "node jest.config.js & jest --coverage"
   },
   "declaration": true,
   "author": "Pavel Stencl",

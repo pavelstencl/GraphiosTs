@@ -1,6 +1,7 @@
 import { GraphiosTs } from ".."
 import Axios from "axios"
 import swapiGraphiosTs from "../../.gql/swapi.graphql";
+import { GraphiosTsGenericError, GraphiosTsParseError } from "../errors";
 
 
 let gTs = new GraphiosTs<swapiGraphiosTs>(Axios.create());
@@ -151,5 +152,53 @@ describe('GraphQL request compiling tests',()=>{
             }
         }).parse();
         expect(res).toBe('query ComplexQuery{films:allFilms{badGuy:director},node(id:"cj0nxmy3xga5u0114fbqads8y"){__typename,...on Film{director},...on Person{eyeColor}}}');
+    });
+    it('throws an error because payload is not defined',()=>{
+        try{
+            gTs.create('query').request();
+            expect('').toThrowError(GraphiosTsGenericError);
+
+        }catch(e){
+            expect(e.name).toBe('GraphiosTsGenericError')
+        }
+    });
+    it('throws an error, because refetch is called before request method',()=>{
+        try{
+            gTs.create('query').gql({
+                'Film':{
+                    'payload':{
+                        'id':true
+                    }
+                }
+            }).refetch();
+            expect('').toThrowError(GraphiosTsGenericError);
+
+        }catch(e){
+            expect(e.name).toBe('GraphiosTsGenericError')
+        }
+    });
+    it('throws an error, because alias has more then one item in a payload',()=>{
+        try{
+            gTs.create('query').gql({
+                'Test':{
+                    __type:'alias',
+                    'payload':{
+                        'Film':{
+                            'payload':{
+                                'id':true
+                            }
+                        },
+                        'Person':{
+                            'payload':{
+                                'eyeColor':true
+                            }
+                        }
+                    }
+                }
+            }).parse();
+            expect('').toThrowError(GraphiosTsParseError);
+        }catch(e){
+            expect(e.name).toBe('GraphiosTsParseError');
+        }
     })
 })

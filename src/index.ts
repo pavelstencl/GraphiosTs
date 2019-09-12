@@ -1,4 +1,4 @@
-import { isFragment } from './utils/isFragment';
+import { isFragment, getFragment } from './utils/isFragment';
 import { GraphiosTs } from './graphiosTs';
 
-export {isFragment,GraphiosTs}
+export {isFragment,getFragment,GraphiosTs}
