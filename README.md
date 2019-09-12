@@ -1,6 +1,9 @@
 ![Logo](media/logo.png "Logo")
 
 # GraphiosTs
+[![npm version](https://badgen.net/npm/v/graphios-ts)](https://www.npmjs.com/package/graphios-ts)
+![gzip size](https://badgen.net/bundlephobia/minzip/graphios-ts)
+
 GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **What you write, you will get**.
 
 ![Typings example](media/preview.gif "Typings example")
@@ -9,7 +12,7 @@ GraphiosTs is TypeScript based GraphQl client built as an extension of Axios pac
 
 In the real world of programming, most of APIs, combines GraphQL and REST requests, so you need two separate clients. It puts complexity to handle two clients with similar settings and it is increasing bundle size. With GraphiosTs, you can share this logic with Axios via settings and interceptors. You have one client for both REST and GraphQl requests.
 
-GraphiosTs translates GraphQl schema into GraphiosTs (TypeScript) schema. This schema is used for validation of graphql commands and compilation of result based on a command you write. Since GraphiosTs schema holds whole GraphQl logic of your endpoint, there is no need to run compilation every time, some GraphQl command has been changed in a script. With GraphiosTsCmd (downloads schema and translates it to GraphiosTs schema) you have only one source of truth... The server one. Every time GraphQl schema on the server will change, you can update GraphiosTs schema via command and Typescript will show you if something is wrong or incompatible.
+GraphiosTs translates GraphQl schema into GraphiosTs (TypeScript) schema. This schema is used for validation of graphql commands and compilation of result based on a command you write. Since GraphiosTs schema holds whole GraphQl logic of your endpoint, there is no need to run compilation every time, some GraphQl command has been changed in a script. With **[GraphiosTsCmd](https://github.com/pavelstencl/graphiosts-cmd)** (downloads schema and translates it to GraphiosTs schema) you have only one source of truth... The server one. Every time GraphQl schema on the server will change, you can update GraphiosTs schema via command and Typescript will show you if something is wrong or incompatible.
 
 This package does not try to compete Apollo ecosystem. Our main goal was to build simple, lightweight, strongly typed graphql client, which can be used in APIs, where every byte of boundle size counts. If you want full featured GraphQl client with tons of extensions and you don't care about size, take [Apollo-client](https://github.com/apollographql/apollo-client), which provides TypeScript definitions for results as well.
 
@@ -26,7 +29,7 @@ This package does not try to compete Apollo ecosystem. Our main goal was to buil
 - - Strongly typed request constructor.
 - - Generates strongly typed response from request constructor.
 - - Uses only one schema -> single source of truth.
-- - GraphQL schema can be downloaded from server and translated to GraphiosTs schema with GraphiosTsCmd.
+- - GraphQL schema can be downloaded from server and translated to GraphiosTs schema with [GraphiosTsCmd](https://github.com/pavelstencl/graphiosts-cmd).
 - **Advanced requests**
 - - Supports batched requests (multiple requests merged into one).
 - - In next version we plan to add cache functionality as module.
