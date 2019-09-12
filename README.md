@@ -1,9 +1,9 @@
-![Logo](https://github.com/pavelstencl/GraphiosTs/blob/master/media/logo.png "Logo")
+![Logo](media/logo.png "Logo")
 
 # GraphiosTs
 GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **What you write, you will get**.
 
-![Typings example](https://github.com/pavelstencl/GraphiosTs/blob/master/media/preview.gif "Typings example")
+![Typings example](media/preview.gif "Typings example")
 
 ## Motivation
 
