@@ -1,8 +1,3 @@
-import swapiGraphiosTs from "../../.gql/swapi.graphql";
-import { GraphiosTs } from "..";
-import Axios from "axios";
-
-class FakeFrag{};
 type WithArray<T> = T extends any[]?T:T | T[];
 
 type Scalars = string | number | boolean | null | undefined;
@@ -51,12 +46,13 @@ type ValidateObject<T extends RequestObject<any>,S extends RequestObject<any> | 
 
 type isGraphTsObject<S>=S extends GraphTsObject[]?S[1]:S extends GraphTsObject?S:never;
 type ConditionalArray<T,S> = S extends any[]?T[]:T;
+
 export type ResultPayload<T extends RequestPayload<any>,S extends GraphTsPayload>= {
     [K in keyof T]:K extends string?
     S[K] extends WithArray<Scalars>?
-    /**Scalars*/S[K]:
-    /**Alias*/isGraphTsObject<S[K]> extends never?ResultAlias<T[K],S>:
-    /**Object*/isGraphTsObject<S[K]>['__type'] extends 'fragment'?ResultObject<T[K],isGraphTsObject<S[K]>> | void:
+    S[K]:
+    isGraphTsObject<S[K]> extends never?ResultAlias<T[K],S>:
+    isGraphTsObject<S[K]>['__type'] extends 'fragment'?ResultObject<T[K],isGraphTsObject<S[K]>> | void:
     ResultObject<T[K],isGraphTsObject<S[K]>>:
     never
 }

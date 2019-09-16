@@ -11,7 +11,11 @@ export class GraphiosTsRequest<S extends GraphTsPayload,X> {
     public settings?:GraphiosTsRequestSettings;
     public  readonly operation:'query'|'mutation'|'subscription';
     private requested:true;
-    constructor(public readonly _name:string | undefined,operation:string | symbol | number,private graphiosTsCallback){
+    constructor(
+        public readonly _name:string | undefined,
+        operation:string | symbol | number,
+        private graphiosTsCallback:(req:GraphiosTsRequest<any,any>)=>any
+    ){
         this._name = _name;
         this.operation = operation.toString() as 'query'|'mutation'|'subscription';
         this.graphiosTsCallback = graphiosTsCallback;
@@ -88,9 +92,10 @@ export class GraphiosTsRequest<S extends GraphTsPayload,X> {
                     out = '...on '+name.substr(4);
                 break;
                 case 'alias':
-                    if(obj.payload && typeof obj.payload === 'object' && Object.keys(obj.payload).length === 1){
-                        out +=':'+Object.keys(obj.payload)[0];
-                        return this.resolveObject(obj.payload[Object.keys(obj.payload)[0]],out);
+                    const payload = obj.payload as {[key:string]:any};
+                    if(payload && typeof payload === 'object' && Object.keys(payload).length === 1){
+                        out +=':'+Object.keys(payload)[0];
+                        return this.resolveObject(payload[Object.keys(payload)[0]],out);
                     }else{
                         throw new GraphiosTsParseError('02','Alias requires payload field which is an object with exactly one item in it.');
                     }
@@ -101,8 +106,8 @@ export class GraphiosTsRequest<S extends GraphTsPayload,X> {
             out+=this.composeArgs(obj.args);
         }
         //Payload definition
-        const payload = obj.payload;
-        if(payload && typeof payload ==='object'){
+        if(obj.payload && typeof obj.payload ==='object'){
+            const payload = obj.payload as {[key:string]:any};
             out+="{";
             for (const key in payload) {
                 out+=typeof payload[key] === 'object'?this.resolveObject(payload[key],key)+',':key+','

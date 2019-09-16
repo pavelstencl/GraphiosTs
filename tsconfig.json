@@ -8,7 +8,7 @@
       "target": "es5",
       "moduleResolution": "node",
       "esModuleInterop":true,
-      "noImplicitAny": false
+      "noImplicitAny": true
     },
     "include": [
         "src/**/*"

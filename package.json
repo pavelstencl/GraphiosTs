@@ -1,6 +1,6 @@
 {
   "name": "graphios-ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Strongly typed GraphQl client built on top of Axios.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
@@ -12,6 +12,7 @@
     "build": "rollup -c",
     "watch": "rollup -cw",
     "test": "node jest.config.js & jest",
+    "coverTest": "node jest.config.js & jest --coverage",
     "coverage": "node jest.config.js & jest --coverage --coverageReporters=text-lcov | coveralls"
   },
   "keywords": [

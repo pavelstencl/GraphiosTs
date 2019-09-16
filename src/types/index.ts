@@ -61,3 +61,6 @@ export type GraphTsQueue = {
     mutation:GraphTsQueueItem[];
     subscription:GraphTsQueueItem[];
 }
+
+export type Resolve = (value?:any)=>any;
+export type Reject = (reason?:any)=>any;

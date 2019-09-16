@@ -11,7 +11,8 @@ let axios = Axios.create({
 let gts = new GraphiosTs<swapiGraphiosTs>(axios,{
     batch:true,
     refetch:2,
-    refetchPause:0
+    refetchPause:0,
+    batchBuffer:2,
 }), mock:Mock;
 
 describe('Test connection',()=>{
@@ -140,21 +141,33 @@ describe('Test connection',()=>{
         })
     });
     it('sends batched request',(done)=>{
-        mock.onAny().reply(200,{
-            "data": {
-                "c0__r0__alias": [
-                    {
-                    "id": "foo"
+        mock.onAny().reply((config)=>{
+            if(config.data.includes('COMPOSITION__Req1__Req2')){
+                return[200,{
+                    "data": {
+                        "c0__r0__alias": [
+                            {
+                            "id": "foo"
+                            }
+                        ],
+                        "c0__r1__allAssets": [
+                            {
+                            "height": 500
+                            }
+                        ],
+                        "c1__r0__Planet":{
+                            id:'bar'
+                        }
                     }
-                ],
-                "c0__r1__allAssets": [
-                    {
-                    "height": 500
+                }]
+            }else{
+                return[200,{
+                    data:{
+                        c0__r0__Planet:{
+                            climate:['average']
+                        }
                     }
-                ],
-                "c1__r0__Planet":{
-                    id:'bar'
-                }
+                }];
             }
         })
         const res1 = gts.create('query','Req1').gql({
@@ -183,13 +196,48 @@ describe('Test connection',()=>{
                 }
             }
         }).request({batched:true});
+        gts.create('query','Req3').gql({
+            'Planet':{
+                'payload':{
+                    'climate':true
+                }
+            }
+        }).request({batched:true}).then((data)=>{
+            expect(data.Planet.climate[0]).toBe('average');
+            done();
+        }).catch((e)=>{
+            expect(e).toBe('data result');
+            done();
+        });
         Promise.all([res1,res2]).then(([r1,r2])=>{
             expect(r1.alias[0].id).toBe('foo');
             expect(r1.allAssets[0].height).toBe(500);
             expect(r2.Planet.id).toBe('bar');
-            done();
         }).catch((e)=>{
             expect(e).toBe('data result');
+            done();
+        })
+    });
+    it('should fail because of server error',(done)=>{
+        mock.onAny().reply(500);
+        new GraphiosTs<swapiGraphiosTs>(axios,{
+            axios:{
+                baseURL:'foo'
+            }
+        }).create('query').gql(
+            {
+                'Film':{
+                    'payload':{
+                        'id':true
+                    }
+                }
+            }
+        ).request().catch((e)=>{
+            expect(e.name).toBe('GraphiosTsNetworkError');
+            done();
+        }).then((data)=>{
+            expect(data).toThrow('GraphiosTsNetworkError');
+            done();
         })
     })
 })
