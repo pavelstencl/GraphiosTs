@@ -50,16 +50,15 @@ const gts = new GraphiosTs<swapiSchema>(Axios.create(),{
         /**
          * Now data.node are typehinted with fragment extension. But there are still present fake fragment object
          * like __onFilm. You can ignore them, or if you want proper type safe definition, use
-         * getFragment, which will transform object to Type Safe definition.
+         * `getFragment`, which will transform object to Type Safe definition.
          */
         const film = getFragment(data.node);
         console.log(film.director);
 
         /**
          * This is example of unfiltered __onFilm fragment.
-         * Object is typesafed, because it is made of multiple types. You have to condition it to get some value, 
-         * but condition will never happen, because it does not exist.
+         * This can lead to unexpected behavior. So please use always `getFragment` method
          */
-        console.log(data.node.__onFilm)
+        console.log(data.node.__onFilm);
     }
 });

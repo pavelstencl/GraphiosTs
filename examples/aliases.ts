@@ -5,7 +5,9 @@ import Axios from 'axios';
 //Create GraphiosTs instance. Put a GraphiosTs schema as an argument of TypeScript (here swapiSchema).
 //Graphios requires Axios instance as argument. Settings are optional.
 const gts = new GraphiosTs<swapiSchema>(Axios.create(),{
+    //Turns on batching. It means it will collect all batchable request in a timeframe and sends them as one request
     batch:true,
+    //Some additional settings
     axios:{
         baseURL:'wrongTestUrl'
     }

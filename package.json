@@ -1,6 +1,6 @@
 {
   "name": "graphios-ts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Strongly typed GraphQl client built on top of Axios.",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
