@@ -3,8 +3,8 @@ import Axios, { AxiosInstance } from 'axios';
 import { GraphiosTsRest } from '../graphiosTsRest';
 import {SwapiRest} from '../../.gql/swapiRest';
 
-let axios:AxiosInstance,mock:Mock,gts:GraphiosTsRest<SwapiRest>;
 describe('GraphiosTsRest tests',()=>{
+    let axios:AxiosInstance,mock:Mock,gts:GraphiosTsRest<SwapiRest>;
     beforeAll(()=>{
         axios = Axios.create()
         mock = new Mock(axios);

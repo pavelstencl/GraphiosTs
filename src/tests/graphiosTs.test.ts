@@ -1,19 +1,18 @@
 import { GraphiosTs } from "..";
 import swapiGraphiosTs from "../../.gql/swapi.graphql";
-import Axios from "axios";
+import Axios, { AxiosInstance } from "axios";
 import  Mock from 'axios-mock-adapter';
-import { GraphiosTsNetworkError, GraphiosTsDataError, GraphiosTsResponseError } from "../errors";
 import { GraphiosTsQueue } from "../graphiosTsQueue";
 
-let axios = Axios.create();
-let gts = new GraphiosTs<swapiGraphiosTs>(axios,{
-    queue:new GraphiosTsQueue(),
-    refetch:2,
-    refetchPause:0,
-}), mock:Mock;
-
 describe('Test connection',()=>{
+    let axios:AxiosInstance,gts:GraphiosTs<swapiGraphiosTs>,mock:Mock;
     beforeAll(()=>{
+        axios = Axios.create();
+        gts = new GraphiosTs<swapiGraphiosTs>(axios,{
+            queue:new GraphiosTsQueue(),
+            refetch:2,
+            refetchPause:0,
+        });
         mock = new Mock(axios);
     })
     afterEach(()=>{
@@ -36,10 +35,7 @@ describe('Test connection',()=>{
         }).request().then((data)=>{
             expect(data.allFilms[0].id).toBe('foo');
             done();
-        }).catch((e)=>{
-            expect(e).toBe('Valid request with valid data');
-            done();
-        })
+        });
     });
     it('Gets network error',(done)=>{
         mock.onAny().reply(500);
@@ -49,10 +45,7 @@ describe('Test connection',()=>{
                     'id':true
                 }
             }
-        }).request().then(()=>{
-            expect('').toBe(GraphiosTsNetworkError);
-            done();
-        }).catch((e)=>{
+        }).request().catch((e)=>{
             expect(e.name).toBe('GraphiosTsNetworkError');
             done();
         })
@@ -65,10 +58,7 @@ describe('Test connection',()=>{
                     'id':true
                 }
             }
-        }).request().then(()=>{
-            expect('').toBe(GraphiosTsDataError);
-            done();
-        }).catch((e)=>{
+        }).request().catch((e)=>{
             expect(e.name).toBe('GraphiosTsDataError');
             done();
         });
@@ -86,10 +76,7 @@ describe('Test connection',()=>{
                     'id':true
                 }
             }
-        }).request().then(()=>{
-            expect('').toBe(GraphiosTsResponseError);
-            done();
-        }).catch((e)=>{
+        }).request().catch((e)=>{
             expect(e.name).toBe('GraphiosTsResponseError');
             done();
         });
@@ -116,10 +103,7 @@ describe('Test connection',()=>{
             expect(count).toBe(1);
             expect(data.allFilms[0].id).toBe('foo');
             done();
-        }).catch((e)=>{
-            expect(e).toBe('Valid request with valid data');
-            done();
-        });
+        })
     });
     it('sends multiple request, but all fails',(done)=>{
         mock.onAny().reply(500);
@@ -129,10 +113,7 @@ describe('Test connection',()=>{
                     'id':true
                 }
             }
-        }).request().then(()=>{
-            expect('').toThrow(GraphiosTsNetworkError);
-            done()
-        }).catch((e)=>{
+        }).request().catch((e)=>{
             expect(e.name).toBe('GraphiosTsNetworkError');
             done()
         })
@@ -153,9 +134,6 @@ describe('Test connection',()=>{
             }
         ).request().catch((e)=>{
             expect(e.name).toBe('GraphiosTsNetworkError');
-            done();
-        }).then((data)=>{
-            expect(data).toThrow('GraphiosTsNetworkError');
             done();
         })
     })

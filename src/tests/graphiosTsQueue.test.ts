@@ -1,19 +1,19 @@
-import Axios from "axios";
+import Axios, { AxiosInstance } from "axios";
 import { GraphiosTs } from "..";
 import swapiGraphiosTs from "../../.gql/swapi.graphql";
 import { GraphiosTsQueue } from "../graphiosTsQueue";
 import  Mock from 'axios-mock-adapter';
 
-let axios = Axios.create();
-let gts = new GraphiosTs<swapiGraphiosTs>(axios,{
-    queue:new GraphiosTsQueue(),
-    refetch:2,
-    refetchPause:0,
-}), mock:Mock;
-
 describe('Queue',()=>{
+    let axios:AxiosInstance,gts:GraphiosTs<swapiGraphiosTs>,mock:Mock;
     beforeAll(()=>{
+        axios = Axios.create();
         mock = new Mock(axios);
+        gts = new GraphiosTs<swapiGraphiosTs>(axios,{
+            queue:new GraphiosTsQueue(),
+            refetch:2,
+            refetchPause:0,
+        });
     })
     afterEach(()=>{
         mock.reset()
@@ -100,10 +100,7 @@ describe('Queue',()=>{
             expect(r1.allAssets[0].height).toBe(500);
             expect(r2.Planet.id).toBe('bar');
             done();
-        }).catch((e)=>{
-            expect(e).toBe('data result 1 & 2 & 3');
-            done();
-        })
+        });
     });
     it('Throws an error, because subscription cannot be batched',(done)=>{
         gts.create('subscription').gql({
@@ -115,8 +112,6 @@ describe('Queue',()=>{
         }).request({batched:true}).catch((e)=>{
             expect(e.name).toBe('GraphiosTsGenericError');
             done();
-        }).then((data)=>{
-            expect(data).toBe('GraphiosTsGenericError');
-        });
+        })
     });
 })

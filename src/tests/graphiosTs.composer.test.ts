@@ -4,8 +4,8 @@ import swapiGraphiosTs from "../../.gql/swapi.graphql";
 import { GraphiosTsGenericError, GraphiosTsParseError } from "../errors";
 
 
-let gTs = new GraphiosTs<swapiGraphiosTs>(Axios.create());
 describe('GraphQL request compiling tests',()=>{
+    let gTs = new GraphiosTs<swapiGraphiosTs>(Axios.create());
     it('Compiles basic request to GraphQl syntax',()=>{
         const res = gTs.create('query','SpecificFilm').gql({
             'Film':{
