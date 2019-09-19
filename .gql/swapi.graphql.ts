@@ -820,56 +820,56 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 
 	export type AddToFilmPlanetsPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			planetsPlanet:query["Planet"]
+			filmsFilm?:query["Film"];
+			planetsPlanet?:query["Planet"]
 		};
 	};
 	export type AddToFilmSpeciesPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			speciesSpecies:query["Species"]
+			filmsFilm?:query["Film"];
+			speciesSpecies?:query["Species"]
 		};
 	};
 	export type AddToFilmStarshipsPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			starshipsStarship:query["Starship"]
+			filmsFilm?:query["Film"];
+			starshipsStarship?:query["Starship"]
 		};
 	};
 	export type AddToFilmVehiclesPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			vehiclesVehicle:query["Vehicle"]
+			filmsFilm?:query["Film"];
+			vehiclesVehicle?:query["Vehicle"]
 		};
 	};
 	export type AddToPeopleFilmPayload = {
 		payload:{
-			charactersPerson:query["Person"];
-			filmsFilm:query["Film"]
+			charactersPerson?:query["Person"];
+			filmsFilm?:query["Film"]
 		};
 	};
 	export type AddToPeoplePlanetPayload = {
 		payload:{
-			residentsPerson:query["Person"];
-			homeworldPlanet:query["Planet"]
+			residentsPerson?:query["Person"];
+			homeworldPlanet?:query["Planet"]
 		};
 	};
 	export type AddToPeopleSpeciesPayload = {
 		payload:{
-			peoplePerson:query["Person"];
-			speciesSpecies:query["Species"]
+			peoplePerson?:query["Person"];
+			speciesSpecies?:query["Species"]
 		};
 	};
 	export type AddToPeopleStarshipsPayload = {
 		payload:{
-			pilotsPerson:query["Person"];
-			starshipsStarship:query["Starship"]
+			pilotsPerson?:query["Person"];
+			starshipsStarship?:query["Starship"]
 		};
 	};
 	export type AddToPeopleVehiclesPayload = {
 		payload:{
-			pilotsPerson:query["Person"];
-			vehiclesVehicle:query["Vehicle"]
+			pilotsPerson?:query["Person"];
+			vehiclesVehicle?:query["Vehicle"]
 		};
 	};
 	export type AssetPreviousValues = {
@@ -886,12 +886,12 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The height of the file in case it is an image
 			*/
-			height:scalar_Float;
+			height?:scalar_Float;
 			id:scalar_ID;
 			/**
 			 * The Mime Type
 			*/
-			mimeType:scalar_String;
+			mimeType?:scalar_String;
 			/**
 			 * The Size Of The File
 			*/
@@ -904,7 +904,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The width of the file in case it is an image
 			*/
-			width:scalar_Float
+			width?:scalar_Float
 		};
 	};
 	export type AssetSubscriptionFilter = {
@@ -1349,9 +1349,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type AssetSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Asset"];
+			node?:query["Asset"];
 			updatedFields:scalar_String[];
-			previousValues:AssetPreviousValues
+			previousValues?:AssetPreviousValues
 		};
 	};
 	export type CreateAsset = {
@@ -1682,7 +1682,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The name of the director of this film.
 			*/
-			director:scalar_String;
+			director?:scalar_String;
 			/**
 			 * The episode number of this film.
 			*/
@@ -1695,7 +1695,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The opening paragraphs at the beginning of this film.
 			*/
-			openingCrawl:scalar_String;
+			openingCrawl?:scalar_String;
 			/**
 			 * The names of the producers of this film.
 			*/
@@ -1703,7 +1703,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The ISO 8601 date format of film release at original creator country.
 			*/
-			releaseDate:scalar_DateTime;
+			releaseDate?:scalar_DateTime;
 			/**
 			 * The title of this film
 			*/
@@ -2091,9 +2091,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type FilmSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Film"];
+			node?:query["Film"];
 			updatedFields:scalar_String[];
-			previousValues:FilmPreviousValues
+			previousValues?:FilmPreviousValues
 		};
 	};
 	export type FilmcharactersPerson = {
@@ -2356,7 +2356,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type InvokeFunctionPayload = {
 		payload:{
 			result:scalar_String;
-			clientMutationId:scalar_String
+			clientMutationId?:scalar_String
 		};
 	};
 	export type PersonPreviousValues = {
@@ -2364,7 +2364,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The birth year of the person, using the in-universe standard of BBY or ABY - Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is a battle that occurs at the end of Star Wars episode IV: A New Hope.
 			*/
-			birthYear:scalar_String;
+			birthYear?:scalar_String;
 			createdAt:scalar_DateTime;
 			/**
 			 * The eye color of this person. Will be "UNKNOWN" if not known or null if the person does not have an eye.
@@ -2373,7 +2373,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The gender of this person. Will be "UNKNOWN" if not known or null if the person does not have a gender.
 			*/
-			gender:PERSON_GENDER;
+			gender?:PERSON_GENDER;
 			/**
 			 * The hair color of this person. Will be "UNKNOWN" if not known or null if the person does not have hair.
 			*/
@@ -2381,7 +2381,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The height of the person in centimeters.
 			*/
-			height:scalar_Int;
+			height?:scalar_Int;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -2390,7 +2390,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The mass of the person in kilograms.
 			*/
-			mass:scalar_Float;
+			mass?:scalar_Float;
 			/**
 			 * The name of this person.
 			*/
@@ -2740,9 +2740,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type PersonSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Person"];
+			node?:query["Person"];
 			updatedFields:scalar_String[];
-			previousValues:PersonPreviousValues
+			previousValues?:PersonPreviousValues
 		};
 	};
 	export type PersonfilmsFilm = {
@@ -2999,11 +2999,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The diameter of this planet in kilometers.
 			*/
-			diameter:scalar_Int;
+			diameter?:scalar_Int;
 			/**
 			 * A number denoting the gravity of this planet, where "1" is normal or 1 standard G. "2" is twice or 2 standard Gs. "0.5" is half or 0.5 standard Gs.
 			*/
-			gravity:scalar_String;
+			gravity?:scalar_String;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -3016,19 +3016,19 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The number of standard days it takes for this planet to complete a single orbit of its local star.
 			*/
-			orbitalPeriod:scalar_Int;
+			orbitalPeriod?:scalar_Int;
 			/**
 			 * The average population of sentient beings inhabiting this planet.
 			*/
-			population:scalar_Float;
+			population?:scalar_Float;
 			/**
 			 * The number of standard hours it takes for this planet to complete a single rotation on its axis.
 			*/
-			rotationPeriod:scalar_Int;
+			rotationPeriod?:scalar_Int;
 			/**
 			 * The percentage of the planet surface that is naturally occurring water or bodies of water.
 			*/
-			surfaceWater:scalar_Float;
+			surfaceWater?:scalar_Float;
 			/**
 			 * The terrain of this planet.
 			*/
@@ -3441,9 +3441,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type PlanetSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Planet"];
+			node?:query["Planet"];
 			updatedFields:scalar_String[];
-			previousValues:PlanetPreviousValues
+			previousValues?:PlanetPreviousValues
 		};
 	};
 	export type PlanetfilmsFilm = {
@@ -3534,56 +3534,56 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 		};
 	export type RemoveFromFilmPlanetsPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			planetsPlanet:query["Planet"]
+			filmsFilm?:query["Film"];
+			planetsPlanet?:query["Planet"]
 		};
 	};
 	export type RemoveFromFilmSpeciesPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			speciesSpecies:query["Species"]
+			filmsFilm?:query["Film"];
+			speciesSpecies?:query["Species"]
 		};
 	};
 	export type RemoveFromFilmStarshipsPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			starshipsStarship:query["Starship"]
+			filmsFilm?:query["Film"];
+			starshipsStarship?:query["Starship"]
 		};
 	};
 	export type RemoveFromFilmVehiclesPayload = {
 		payload:{
-			filmsFilm:query["Film"];
-			vehiclesVehicle:query["Vehicle"]
+			filmsFilm?:query["Film"];
+			vehiclesVehicle?:query["Vehicle"]
 		};
 	};
 	export type RemoveFromPeopleFilmPayload = {
 		payload:{
-			charactersPerson:query["Person"];
-			filmsFilm:query["Film"]
+			charactersPerson?:query["Person"];
+			filmsFilm?:query["Film"]
 		};
 	};
 	export type RemoveFromPeoplePlanetPayload = {
 		payload:{
-			residentsPerson:query["Person"];
-			homeworldPlanet:query["Planet"]
+			residentsPerson?:query["Person"];
+			homeworldPlanet?:query["Planet"]
 		};
 	};
 	export type RemoveFromPeopleSpeciesPayload = {
 		payload:{
-			peoplePerson:query["Person"];
-			speciesSpecies:query["Species"]
+			peoplePerson?:query["Person"];
+			speciesSpecies?:query["Species"]
 		};
 	};
 	export type RemoveFromPeopleStarshipsPayload = {
 		payload:{
-			pilotsPerson:query["Person"];
-			starshipsStarship:query["Starship"]
+			pilotsPerson?:query["Person"];
+			starshipsStarship?:query["Starship"]
 		};
 	};
 	export type RemoveFromPeopleVehiclesPayload = {
 		payload:{
-			pilotsPerson:query["Person"];
-			vehiclesVehicle:query["Vehicle"]
+			pilotsPerson?:query["Person"];
+			vehiclesVehicle?:query["Vehicle"]
 		};
 	};
 	export type SpeciesPreviousValues = {
@@ -3591,20 +3591,20 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The average height of this species in centimeters.
 			*/
-			averageHeight:scalar_Int;
+			averageHeight?:scalar_Int;
 			/**
 			 * The average lifespan of this species in years.
 			*/
-			averageLifespan:scalar_Int;
+			averageLifespan?:scalar_Int;
 			/**
 			 * The classification of this species, such as "mammal" or "reptile".
 			*/
-			classification:scalar_String;
+			classification?:scalar_String;
 			createdAt:scalar_DateTime;
 			/**
 			 * The designation of this species, such as "sentient".
 			*/
-			designation:scalar_String;
+			designation?:scalar_String;
 			/**
 			 * The eye colors for this species, "UNKNOWN" if not known, null if this species does not typically have eyes.
 			*/
@@ -3621,7 +3621,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The language commonly spoken by this species.
 			*/
-			language:scalar_String;
+			language?:scalar_String;
 			/**
 			 * The name of this species.
 			*/
@@ -4057,9 +4057,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type SpeciesSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Species"];
+			node?:query["Species"];
 			updatedFields:scalar_String[];
-			previousValues:SpeciesPreviousValues
+			previousValues?:SpeciesPreviousValues
 		};
 	};
 	export type SpeciesfilmsFilm = {
@@ -4155,28 +4155,28 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum number of kilograms that this starship can transport.
 			*/
-			cargoCapacity:scalar_Float;
+			cargoCapacity?:scalar_Float;
 			/**
 			 * The class of this starship, such as "Starfighter" or "Deep Space Mobile Battlestation"
 			*/
-			class:scalar_String;
+			class?:scalar_String;
 			/**
 			 * The maximum length of time that this starship can provide consumables for its entire crew without having to resupply.
 			*/
-			consumables:scalar_String;
+			consumables?:scalar_String;
 			/**
 			 *  The cost of this starship new, in galactic credits.
 			*/
-			costInCredits:scalar_Float;
+			costInCredits?:scalar_Float;
 			createdAt:scalar_DateTime;
 			/**
 			 * The number of personnel needed to run or pilot this starship.
 			*/
-			crew:scalar_Int;
+			crew?:scalar_Int;
 			/**
 			 * The class of this starships hyperdrive.
 			*/
-			hyperdriveRating:scalar_Float;
+			hyperdriveRating?:scalar_Float;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -4185,7 +4185,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The length of this starship in meters.
 			*/
-			length:scalar_Float;
+			length?:scalar_Float;
 			/**
 			 * The manufacturer of this starship.
 			*/
@@ -4193,11 +4193,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The maximum speed of this starship in the atmosphere. null if this starship is incapable of atmospheric flight.
 			*/
-			maxAtmospheringSpeed:scalar_Int;
+			maxAtmospheringSpeed?:scalar_Int;
 			/**
 			 * The Maximum number of Megalights this starship can travel in a standard hour. A "Megalight" is a standard unit of distance and has never been defined before within the Star Wars universe.
 			*/
-			mglt:scalar_Int;
+			mglt?:scalar_Int;
 			/**
 			 * The name of this starship. The common name, such as "Death Star".
 			*/
@@ -4205,7 +4205,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The number of non-essential people this starship can transport.
 			*/
-			passengers:scalar_Int;
+			passengers?:scalar_Int;
 			updatedAt:scalar_DateTime
 		};
 	};
@@ -4754,9 +4754,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type StarshipSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Starship"];
+			node?:query["Starship"];
 			updatedFields:scalar_String[];
-			previousValues:StarshipPreviousValues
+			previousValues?:StarshipPreviousValues
 		};
 	};
 	export type StarshipfilmsFilm = {
@@ -5181,24 +5181,24 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum number of kilograms that this vehicle can transport.
 			*/
-			cargoCapacity:scalar_Int;
+			cargoCapacity?:scalar_Int;
 			/**
 			 *  The class of this vehicle, such as "Wheeled" or "Repulsorcraft".
 			*/
-			class:scalar_String;
+			class?:scalar_String;
 			/**
 			 * The maximum length of time that this vehicle can provide consumables for its entire crew without having to resupply.
 			*/
-			consumables:scalar_String;
+			consumables?:scalar_String;
 			/**
 			 * The cost of this vehicle new, in Galactic Credits.
 			*/
-			costInCredits:scalar_Int;
+			costInCredits?:scalar_Int;
 			createdAt:scalar_DateTime;
 			/**
 			 * The number of personnel needed to run or pilot this vehicle.
 			*/
-			crew:scalar_Int;
+			crew?:scalar_Int;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -5207,7 +5207,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The length of this vehicle in meters.
 			*/
-			length:scalar_Float;
+			length?:scalar_Float;
 			/**
 			 * The manufacturer of this vehicle.
 			*/
@@ -5215,11 +5215,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum speed of this vehicle in the atmosphere.
 			*/
-			maxAtmospheringSpeed:scalar_Int;
+			maxAtmospheringSpeed?:scalar_Int;
 			/**
 			 * The model or official name of this vehicle. Such as "All-Terrain Attack Transport".
 			*/
-			model:scalar_String;
+			model?:scalar_String;
 			/**
 			 * The name of this vehicle. The common name, such as "Sand Crawler" or "Speeder bike".
 			*/
@@ -5227,7 +5227,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The number of non-essential people this vehicle can transport.
 			*/
-			passengers:scalar_Int;
+			passengers?:scalar_Int;
 			updatedAt:scalar_DateTime
 		};
 	};
@@ -5771,9 +5771,9 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 	export type VehicleSubscriptionPayload = {
 		payload:{
 			mutation:_ModelMutationType;
-			node:query["Vehicle"];
+			node?:query["Vehicle"];
 			updatedFields:scalar_String[];
-			previousValues:VehiclePreviousValues
+			previousValues?:VehiclePreviousValues
 		};
 	};
 	export type VehiclefilmsFilm = {
@@ -5882,12 +5882,12 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The height of the file in case it is an image
 			*/
-			height:scalar_Float;
+			height?:scalar_Float;
 			id:scalar_ID;
 			/**
 			 * The Mime Type
 			*/
-			mimeType:scalar_String;
+			mimeType?:scalar_String;
 			/**
 			 * The Size Of The File
 			*/
@@ -5900,7 +5900,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The width of the file in case it is an image
 			*/
-			width:scalar_Float
+			width?:scalar_Float
 		};
 	};
 	export type AssetFilter = {
@@ -6333,20 +6333,20 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			characters:{
 				payload:Arrayed<query["Person"]>['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			createdAt:scalar_DateTime;
 			/**
 			 * The name of the director of this film.
 			*/
-			director:scalar_String;
+			director?:scalar_String;
 			/**
 			 * The episode number of this film.
 			*/
@@ -6359,17 +6359,17 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The opening paragraphs at the beginning of this film.
 			*/
-			openingCrawl:scalar_String;
+			openingCrawl?:scalar_String;
 			planets:{
 				payload:Arrayed<query["Planet"]>['payload'];
 				args?:{
-					filter:PlanetFilter;
-					orderBy:PlanetOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PlanetFilter;
+					orderBy?:PlanetOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6379,29 +6379,29 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The ISO 8601 date format of film release at original creator country.
 			*/
-			releaseDate:scalar_DateTime;
+			releaseDate?:scalar_DateTime;
 			species:{
 				payload:Arrayed<query["Species"]>['payload'];
 				args?:{
-					filter:SpeciesFilter;
-					orderBy:SpeciesOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:SpeciesFilter;
+					orderBy?:SpeciesOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			starships:{
 				payload:Arrayed<query["Starship"]>['payload'];
 				args?:{
-					filter:StarshipFilter;
-					orderBy:StarshipOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:StarshipFilter;
+					orderBy?:StarshipOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6412,13 +6412,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			vehicles:{
 				payload:Arrayed<query["Vehicle"]>['payload'];
 				args?:{
-					filter:VehicleFilter;
-					orderBy:VehicleOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:VehicleFilter;
+					orderBy?:VehicleOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6427,13 +6427,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_charactersMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6442,13 +6442,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_planetsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PlanetFilter;
-					orderBy:PlanetOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PlanetFilter;
+					orderBy?:PlanetOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6457,13 +6457,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_speciesMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:SpeciesFilter;
-					orderBy:SpeciesOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:SpeciesFilter;
+					orderBy?:SpeciesOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6472,13 +6472,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_starshipsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:StarshipFilter;
-					orderBy:StarshipOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:StarshipFilter;
+					orderBy?:StarshipOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -6487,13 +6487,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_vehiclesMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:VehicleFilter;
-					orderBy:VehicleOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:VehicleFilter;
+					orderBy?:VehicleOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -6919,7 +6919,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The birth year of the person, using the in-universe standard of BBY or ABY - Before the Battle of Yavin or After the Battle of Yavin. The Battle of Yavin is a battle that occurs at the end of Star Wars episode IV: A New Hope.
 			*/
-			birthYear:scalar_String;
+			birthYear?:scalar_String;
 			createdAt:scalar_DateTime;
 			/**
 			 * The eye color of this person. Will be "UNKNOWN" if not known or null if the person does not have an eye.
@@ -6928,19 +6928,19 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			films:{
 				payload:Arrayed<query["Film"]>['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
 			 *  The gender of this person. Will be "UNKNOWN" if not known or null if the person does not have a gender.
 			*/
-			gender:PERSON_GENDER;
+			gender?:PERSON_GENDER;
 			/**
 			 * The hair color of this person. Will be "UNKNOWN" if not known or null if the person does not have hair.
 			*/
@@ -6948,11 +6948,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The height of the person in centimeters.
 			*/
-			height:scalar_Int;
-			homeworld:{
+			height?:scalar_Int;
+			homeworld?:{
 				payload:query["Planet"]['payload'];
 				args?:{
-					filter:PlanetFilter
+					filter?:PlanetFilter
 				};
 			};
 			id:scalar_ID;
@@ -6963,7 +6963,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The mass of the person in kilograms.
 			*/
-			mass:scalar_Float;
+			mass?:scalar_Float;
 			/**
 			 * The name of this person.
 			*/
@@ -6975,38 +6975,38 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			species:{
 				payload:Arrayed<query["Species"]>['payload'];
 				args?:{
-					filter:SpeciesFilter;
-					orderBy:SpeciesOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:SpeciesFilter;
+					orderBy?:SpeciesOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			starships:{
 				payload:Arrayed<query["Starship"]>['payload'];
 				args?:{
-					filter:StarshipFilter;
-					orderBy:StarshipOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:StarshipFilter;
+					orderBy?:StarshipOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			updatedAt:scalar_DateTime;
 			vehicles:{
 				payload:Arrayed<query["Vehicle"]>['payload'];
 				args?:{
-					filter:VehicleFilter;
-					orderBy:VehicleOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:VehicleFilter;
+					orderBy?:VehicleOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7015,13 +7015,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_filmsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7030,13 +7030,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_speciesMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:SpeciesFilter;
-					orderBy:SpeciesOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:SpeciesFilter;
+					orderBy?:SpeciesOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7045,13 +7045,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_starshipsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:StarshipFilter;
-					orderBy:StarshipOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:StarshipFilter;
+					orderBy?:StarshipOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7060,13 +7060,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_vehiclesMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:VehicleFilter;
-					orderBy:VehicleOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:VehicleFilter;
+					orderBy?:VehicleOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -7401,23 +7401,23 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The diameter of this planet in kilometers.
 			*/
-			diameter:scalar_Int;
+			diameter?:scalar_Int;
 			films:{
 				payload:Arrayed<query["Film"]>['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
 			 * A number denoting the gravity of this planet, where "1" is normal or 1 standard G. "2" is twice or 2 standard Gs. "0.5" is half or 0.5 standard Gs.
 			*/
-			gravity:scalar_String;
+			gravity?:scalar_String;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -7430,31 +7430,31 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The number of standard days it takes for this planet to complete a single orbit of its local star.
 			*/
-			orbitalPeriod:scalar_Int;
+			orbitalPeriod?:scalar_Int;
 			/**
 			 * The average population of sentient beings inhabiting this planet.
 			*/
-			population:scalar_Float;
+			population?:scalar_Float;
 			residents:{
 				payload:Arrayed<query["Person"]>['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
 			 * The number of standard hours it takes for this planet to complete a single rotation on its axis.
 			*/
-			rotationPeriod:scalar_Int;
+			rotationPeriod?:scalar_Int;
 			/**
 			 * The percentage of the planet surface that is naturally occurring water or bodies of water.
 			*/
-			surfaceWater:scalar_Float;
+			surfaceWater?:scalar_Float;
 			/**
 			 * The terrain of this planet.
 			*/
@@ -7466,13 +7466,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_filmsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7481,13 +7481,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_residentsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -7896,20 +7896,20 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The average height of this species in centimeters.
 			*/
-			averageHeight:scalar_Int;
+			averageHeight?:scalar_Int;
 			/**
 			 * The average lifespan of this species in years.
 			*/
-			averageLifespan:scalar_Int;
+			averageLifespan?:scalar_Int;
 			/**
 			 * The classification of this species, such as "mammal" or "reptile".
 			*/
-			classification:scalar_String;
+			classification?:scalar_String;
 			createdAt:scalar_DateTime;
 			/**
 			 * The designation of this species, such as "sentient".
 			*/
-			designation:scalar_String;
+			designation?:scalar_String;
 			/**
 			 * The eye colors for this species, "UNKNOWN" if not known, null if this species does not typically have eyes.
 			*/
@@ -7917,13 +7917,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			films:{
 				payload:Arrayed<query["Film"]>['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7938,7 +7938,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The language commonly spoken by this species.
 			*/
-			language:scalar_String;
+			language?:scalar_String;
 			/**
 			 * The name of this species.
 			*/
@@ -7946,13 +7946,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			people:{
 				payload:Arrayed<query["Person"]>['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7966,13 +7966,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_filmsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -7981,13 +7981,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_peopleMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -8403,40 +8403,40 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum number of kilograms that this starship can transport.
 			*/
-			cargoCapacity:scalar_Float;
+			cargoCapacity?:scalar_Float;
 			/**
 			 * The class of this starship, such as "Starfighter" or "Deep Space Mobile Battlestation"
 			*/
-			class:scalar_String;
+			class?:scalar_String;
 			/**
 			 * The maximum length of time that this starship can provide consumables for its entire crew without having to resupply.
 			*/
-			consumables:scalar_String;
+			consumables?:scalar_String;
 			/**
 			 *  The cost of this starship new, in galactic credits.
 			*/
-			costInCredits:scalar_Float;
+			costInCredits?:scalar_Float;
 			createdAt:scalar_DateTime;
 			/**
 			 * The number of personnel needed to run or pilot this starship.
 			*/
-			crew:scalar_Int;
+			crew?:scalar_Int;
 			films:{
 				payload:Arrayed<query["Film"]>['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
 			 * The class of this starships hyperdrive.
 			*/
-			hyperdriveRating:scalar_Float;
+			hyperdriveRating?:scalar_Float;
 			id:scalar_ID;
 			/**
 			 * indicates if the record is published
@@ -8445,7 +8445,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The length of this starship in meters.
 			*/
-			length:scalar_Float;
+			length?:scalar_Float;
 			/**
 			 * The manufacturer of this starship.
 			*/
@@ -8453,11 +8453,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The maximum speed of this starship in the atmosphere. null if this starship is incapable of atmospheric flight.
 			*/
-			maxAtmospheringSpeed:scalar_Int;
+			maxAtmospheringSpeed?:scalar_Int;
 			/**
 			 * The Maximum number of Megalights this starship can travel in a standard hour. A "Megalight" is a standard unit of distance and has never been defined before within the Star Wars universe.
 			*/
-			mglt:scalar_Int;
+			mglt?:scalar_Int;
 			/**
 			 * The name of this starship. The common name, such as "Death Star".
 			*/
@@ -8465,17 +8465,17 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The number of non-essential people this starship can transport.
 			*/
-			passengers:scalar_Int;
+			passengers?:scalar_Int;
 			pilots:{
 				payload:Arrayed<query["Person"]>['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			updatedAt:scalar_DateTime;
@@ -8485,13 +8485,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_filmsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -8500,13 +8500,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_pilotsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -9043,34 +9043,34 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum number of kilograms that this vehicle can transport.
 			*/
-			cargoCapacity:scalar_Int;
+			cargoCapacity?:scalar_Int;
 			/**
 			 *  The class of this vehicle, such as "Wheeled" or "Repulsorcraft".
 			*/
-			class:scalar_String;
+			class?:scalar_String;
 			/**
 			 * The maximum length of time that this vehicle can provide consumables for its entire crew without having to resupply.
 			*/
-			consumables:scalar_String;
+			consumables?:scalar_String;
 			/**
 			 * The cost of this vehicle new, in Galactic Credits.
 			*/
-			costInCredits:scalar_Int;
+			costInCredits?:scalar_Int;
 			createdAt:scalar_DateTime;
 			/**
 			 * The number of personnel needed to run or pilot this vehicle.
 			*/
-			crew:scalar_Int;
+			crew?:scalar_Int;
 			films:{
 				payload:Arrayed<query["Film"]>['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			id:scalar_ID;
@@ -9081,7 +9081,7 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 *  The length of this vehicle in meters.
 			*/
-			length:scalar_Float;
+			length?:scalar_Float;
 			/**
 			 * The manufacturer of this vehicle.
 			*/
@@ -9089,11 +9089,11 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The maximum speed of this vehicle in the atmosphere.
 			*/
-			maxAtmospheringSpeed:scalar_Int;
+			maxAtmospheringSpeed?:scalar_Int;
 			/**
 			 * The model or official name of this vehicle. Such as "All-Terrain Attack Transport".
 			*/
-			model:scalar_String;
+			model?:scalar_String;
 			/**
 			 * The name of this vehicle. The common name, such as "Sand Crawler" or "Speeder bike".
 			*/
@@ -9101,17 +9101,17 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			/**
 			 * The number of non-essential people this vehicle can transport.
 			*/
-			passengers:scalar_Int;
+			passengers?:scalar_Int;
 			pilots:{
 				payload:Arrayed<query["Person"]>['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			updatedAt:scalar_DateTime;
@@ -9121,13 +9121,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_filmsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:FilmFilter;
-					orderBy:FilmOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:FilmFilter;
+					orderBy?:FilmOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			};
 			/**
@@ -9136,13 +9136,13 @@ type Arrayed<T> = T extends {payload:any}?{[K in keyof T]: K extends 'payload'?T
 			_pilotsMeta:{
 				payload:_QueryMeta['payload'];
 				args?:{
-					filter:PersonFilter;
-					orderBy:PersonOrderBy;
-					skip:scalar_Int;
-					after:scalar_String;
-					before:scalar_String;
-					first:scalar_Int;
-					last:scalar_Int
+					filter?:PersonFilter;
+					orderBy?:PersonOrderBy;
+					skip?:scalar_Int;
+					after?:scalar_String;
+					before?:scalar_String;
+					first?:scalar_Int;
+					last?:scalar_Int
 				};
 			}
 		};
@@ -9682,7 +9682,7 @@ In some cases, you need to provide options to alter GraphQL’s execution behavi
 	export type __Directive = {
 		payload:{
 			name:scalar_String;
-			description:scalar_String;
+			description?:scalar_String;
 			locations:__DirectiveLocation[];
 			args:Arrayed<__InputValue>
 		};
@@ -9697,9 +9697,9 @@ In some cases, you need to provide options to alter GraphQL’s execution behavi
 	export type __EnumValue = {
 		payload:{
 			name:scalar_String;
-			description:scalar_String;
+			description?:scalar_String;
 			isDeprecated:scalar_Boolean;
-			deprecationReason:scalar_String
+			deprecationReason?:scalar_String
 		};
 	};
 	/**
@@ -9708,11 +9708,11 @@ In some cases, you need to provide options to alter GraphQL’s execution behavi
 	export type __Field = {
 		payload:{
 			name:scalar_String;
-			description:scalar_String;
+			description?:scalar_String;
 			args:Arrayed<__InputValue>;
 			type:__Type;
 			isDeprecated:scalar_Boolean;
-			deprecationReason:scalar_String
+			deprecationReason?:scalar_String
 		};
 	};
 	/**
@@ -9721,12 +9721,12 @@ In some cases, you need to provide options to alter GraphQL’s execution behavi
 	export type __InputValue = {
 		payload:{
 			name:scalar_String;
-			description:scalar_String;
+			description?:scalar_String;
 			type:__Type;
 			/**
 			 * A GraphQL-formatted string representing the default value for this input value.
 			*/
-			defaultValue:scalar_String
+			defaultValue?:scalar_String
 		};
 	};
 	/**
@@ -9745,11 +9745,11 @@ In some cases, you need to provide options to alter GraphQL’s execution behavi
 			/**
 			 * If this server supports mutation, the type that mutation operations will be rooted at.
 			*/
-			mutationType:__Type;
+			mutationType?:__Type;
 			/**
 			 * If this server support subscription, the type that subscription operations will be rooted at.
 			*/
-			subscriptionType:__Type;
+			subscriptionType?:__Type;
 			/**
 			 * A list of all directives supported by this server.
 			*/
@@ -9764,12 +9764,12 @@ Depending on the kind of a type, certain fields describe information about that 
 	export type __Type = {
 		payload:{
 			kind:__TypeKind;
-			name:scalar_String;
-			description:scalar_String;
+			name?:scalar_String;
+			description?:scalar_String;
 			fields:{
 				payload:Arrayed<__Field>['payload'];
 				args?:{
-					includeDeprecated:scalar_Boolean
+					includeDeprecated?:scalar_Boolean
 				};
 			};
 			interfaces:Arrayed<__Type>;
@@ -9777,11 +9777,11 @@ Depending on the kind of a type, certain fields describe information about that 
 			enumValues:{
 				payload:Arrayed<__EnumValue>['payload'];
 				args?:{
-					includeDeprecated:scalar_Boolean
+					includeDeprecated?:scalar_Boolean
 				};
 			};
 			inputFields:Arrayed<__InputValue>;
-			ofType:__Type
+			ofType?:__Type
 		};
 	};
 	/**
