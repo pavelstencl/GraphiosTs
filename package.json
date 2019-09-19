@@ -29,6 +29,7 @@
   "bugs": {
     "url": "https://github.com/pavelstencl/GraphiosTs/issues"
   },
+  "sideEffects": false,
   "declaration": true,
   "author": "Pavel Stencl",
   "license": "MIT",
