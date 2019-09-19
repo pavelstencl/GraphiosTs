@@ -3,16 +3,13 @@ import swapiGraphiosTs from "../../.gql/swapi.graphql";
 import Axios from "axios";
 import  Mock from 'axios-mock-adapter';
 import { GraphiosTsNetworkError, GraphiosTsDataError, GraphiosTsResponseError } from "../errors";
+import { GraphiosTsQueue } from "../graphiosTsQueue";
 
-let axios = Axios.create({
-    baseURL:'https://swapi.graph.cool/',
-    method:'POST'
-});
+let axios = Axios.create();
 let gts = new GraphiosTs<swapiGraphiosTs>(axios,{
-    batch:true,
+    queue:new GraphiosTsQueue(),
     refetch:2,
     refetchPause:0,
-    batchBuffer:2,
 }), mock:Mock;
 
 describe('Test connection',()=>{
@@ -138,84 +135,6 @@ describe('Test connection',()=>{
         }).catch((e)=>{
             expect(e.name).toBe('GraphiosTsNetworkError');
             done()
-        })
-    });
-    it('sends batched request',(done)=>{
-        mock.onAny().reply((config)=>{
-            if(config.data.includes('COMPOSITION__Req1__Req2')){
-                return[200,{
-                    "data": {
-                        "c0__r0__alias": [
-                            {
-                            "id": "foo"
-                            }
-                        ],
-                        "c0__r1__allAssets": [
-                            {
-                            "height": 500
-                            }
-                        ],
-                        "c1__r0__Planet":{
-                            id:'bar'
-                        }
-                    }
-                }]
-            }else{
-                return[200,{
-                    data:{
-                        c0__r0__Planet:{
-                            climate:['average']
-                        }
-                    }
-                }];
-            }
-        })
-        const res1 = gts.create('query','Req1').gql({
-            'alias':{
-                __type:'alias',
-                'payload':{
-                    'allFilms':{
-                        'payload':{
-                            'id':true
-                        }
-                    }
-                }
-            },
-            'allAssets':{
-                'payload':{
-                    'height':true
-                }
-            }
-        }).request({
-            batched:true
-        });
-        const res2 = gts.create('query','Req2').gql({
-            'Planet':{
-                'payload':{
-                    'id':true
-                }
-            }
-        }).request({batched:true});
-        gts.create('query','Req3').gql({
-            'Planet':{
-                'payload':{
-                    'climate':true
-                }
-            }
-        }).request({batched:true}).then((data)=>{
-            expect(data.Planet.climate[0]).toBe('average');
-            done();
-        }).catch((e)=>{
-            expect(e).toBe('data result');
-            done();
-        });
-        Promise.all([res1,res2]).then(([r1,r2])=>{
-            expect(r1.alias[0].id).toBe('foo');
-            expect(r1.allAssets[0].height).toBe(500);
-            expect(r2.Planet.id).toBe('bar');
-        }).catch((e)=>{
-            expect(e).toBe('data result');
-            done();
         })
     });
     it('should fail because of server error',(done)=>{

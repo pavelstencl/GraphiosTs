@@ -46,4 +46,4 @@ const gql = requestConstructor.gql({
 gql.request().then((data)=>{
     //Response
     console.log(data.Film.characters[0].gender);
-})
+});

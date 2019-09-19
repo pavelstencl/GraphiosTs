@@ -1,5 +1,5 @@
 import { JSON_ARGS_TO_GQL_REGEXP } from "./config";
-import { GraphQlError, GraphiosTsRequestSettings } from "./types";
+import { GraphiosTsRequestSettings, GraphiosTsCallback } from "./types";
 import { GraphTsPayload, RequestPayload, Validate, ResultPayload, GraphTsObject } from "./types/schema";
 import { GraphiosTsGenericError, GraphiosTsParseError } from "./errors";
 
@@ -14,7 +14,7 @@ export class GraphiosTsRequest<S extends GraphTsPayload,X> {
     constructor(
         public readonly _name:string | undefined,
         operation:string | symbol | number,
-        private graphiosTsCallback:(req:GraphiosTsRequest<any,any>)=>any
+        private graphiosTsCallback:GraphiosTsCallback
     ){
         this._name = _name;
         this.operation = operation.toString() as 'query'|'mutation'|'subscription';

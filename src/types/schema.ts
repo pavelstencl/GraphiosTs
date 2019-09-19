@@ -1,21 +1,40 @@
+/**
+ * GRAPHQL SCHEMA
+ */
+
+
+/**
+ * Type is extended with its array
+ */
 type WithArray<T> = T extends any[]?T:T | T[];
-
+/**
+ * List of GraphQl scalars
+ */
 type Scalars = string | number | boolean | null | undefined;
-
 type Check = true;
 
+/**
+ * TypeScript representation of GraphQl schema. Usualy contains query, mutation and subscription
+ */
 export type GraphTsSchema = {
     [key:string]:any;
 };
+/**
+ * Payload definitions. Can be GraphTsObject or Scalars or array of Scalars
+ */
 export type GraphTsPayload = {[key:string]:GraphTsObject | WithArray<Scalars>};
 
+/**
+ * GraphTs object represents complete object with arguments and payload. It can be a special object as well.
+ * Special object can be alias or fragment
+ */
 export type GraphTsObject = {
     args?:{[key:string]:any};
     payload:WithArray<GraphTsPayload|Scalars>;
     __type?:'fragment'|'alias'
 }
 
-type ReduceArray<T> = T extends any[]? T[1] : T;
+export type ReduceArray<T> = T extends any[]? T[1] : T;
 
 type RequestObject<T extends GraphTsObject> = {
     [K in keyof T]:K extends 'payload'?RequestPayload<ReduceArray<T['payload']>>:
@@ -62,3 +81,24 @@ type Payload<T> = T extends {[key:string]:string}?{
 }:T
 type isPayload<T>=T extends GraphTsPayload[]?T[1]:T extends GraphTsPayload?T:never;
 type ResultObject<T extends RequestObject<any>,S extends GraphTsObject> = S extends GraphTsObject?ConditionalArray<ResultPayload<T['payload'],isPayload<S['payload']>>,S['payload']>:S['payload'];
+
+
+
+/**
+ * REST SCHEMA
+ */
+
+type RestObject = {[key:string]:{
+    payload:any;
+    args?:{[key:string]:any};
+    vars?:{[key:string]:any};
+    data?:any;
+}}
+export type RestSchema = {
+    GET?:RestObject;
+    POST?:RestObject;
+    PUT?:RestObject;
+    DELETE?:RestObject;
+}
+
+export type getPayload<T>= T extends {[key:string]:any}?T['payload'] extends undefined?never:T['payload']:never;

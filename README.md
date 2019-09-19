@@ -6,7 +6,7 @@
 [![gzip size](https://badgen.net/bundlephobia/minzip/graphios-ts)](https://bundlephobia.com/result?p=graphios-ts)
 [![Coverage Status](https://coveralls.io/repos/github/pavelstencl/GraphiosTs/badge.svg?branch=master)](https://coveralls.io/github/pavelstencl/GraphiosTs?branch=master)
 
-GraphiosTs is TypeScript based GraphQl client built as an extension of Axios package. It combines the best from Axios and Typescript to provide lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **You will get,what you typed**. [Try interactive demo.](https://codesandbox.io/s/silly-wind-gk1fp);
+GraphiosTs is TypeScript extension of Axios, which transforms Axios into typesafe GraphQl client. It combines the best from Axios and Typescript to provide a lightweight alternative to the Apollo-client. GraphiosTs uses one GraphQl schema source to provide strongly typed requests and responses. In other words: **You will get, what you typed**. [Try interactive demo.](https://codesandbox.io/s/silly-wind-gk1fp);
 
 [![Typings example](media/preview.gif "Typings example")](#features)
 
@@ -28,7 +28,7 @@ This package does not try to compete with the Apollo ecosystem. Our main goal wa
     - [Field Aliases](https://graphql.github.io/graphql-spec/June2018/#sec-Field-Alias)
     - [Inline fragments](https://graphql.github.io/graphql-spec/June2018/#sec-Inline-Fragments)
 - **Axios**
-    - [Use all axios features which you love](https://github.com/axios/axios).
+    - [Use all Axios features which you love](https://github.com/axios/axios).
 - **Typings**
     - Typesafe request and response with hints.
     - Uses only one schema -> the single source of the truth.
@@ -153,7 +153,7 @@ More examples [here](https://github.com/pavelstencl/GraphiosTs/tree/master/examp
 
 ## Schema
 
-**GraphiosTs uses *[GraphiosTs-Cmd](https://github.com/pavelstencl/graphiosts-cmd)* package, which is command-line utility for conversion of serverside GraphQl schema to GraphiosTs schema. It keeps the source of truth on the server-side, so maintaining of GraphQl requests is significantly easier. Schema can be handwritten as well, but we discourage you from this approach, since maintaining of this schema is extremely difficult. You can inspect [swapi schema]( https://github.com/pavelstencl/GraphiosTs/blob/master/.gql/swapi.graphql.ts) to learn about Schema composition**
+**GraphiosTs uses *[GraphiosTs-Cmd](https://github.com/pavelstencl/graphiosts-cmd)* package, which is command-line utility for conversion of serverside GraphQl schema to GraphiosTs schema. It keeps the source of truth on the server-side, so maintaining of GraphQl requests is significantly easier. Schema can be handwritten as well, but we discourage you from this approach, since maintaining of this schema is extremely difficult.[Go to Schema description](https://github.com/pavelstencl/GraphiosTs/tree/master/learn/SCHEMA.md)**
 
 ## GraphiosTs API
 
@@ -172,40 +172,26 @@ const gts = new GraphiosTs<schemaDefinition>(
 ```typescript
 {
     /**
-     * Turns on/off batch request.
-     * Batch request groups multiple requests into one.
-     * Then result is sorted and send to separate Promise resolvers.
-     * Default is false
+     * Axios settings. These settings will be merged with query settings and pased to the Axios. If axios has any default setting, this can override it.
      */
-    batch?:boolean;
-    /**
-     * Batch buffer size. Sets maximum amount of request per iteration
-     */
-    batchBuffer?:number;
-    /**
-     * Timeframe in which GraphiosTs waits for other requests
-     */
-    batchTimeout?:number;
-    /**
-     * Type of content
-     */
-    contentType?:'application/json' | string;
-    /**
-     * Axios settings. These settings will be merged with query settings and pased to the Axios. 
-     * If axios has any default setting, this can override it.
-     * Useful when GraphiosTs inherits Axios instance with REST settings and needs to override some rules
-     */
-    axios?:AxiosRequestConfig;
+    axios:AxiosRequestConfig;
     /**
      * If server returns status >= 500, it will try again.
      * This specifies how many times should it try. If 0, it will not refetch at all.
-     * Default is 0.
      */
-    refetch?:number;
+    refetch:number;
     /**
-     * Pause in ms before next try.
+     * Pause in ms before another refetch.
      */
-    refetchPause?:number;
+    refetchPause:number;
+    /**
+     * Content type header
+     */
+    contentType:'application/json' | string;
+    /**
+     * Batch queue object
+     */
+    queue?:GraphiosTsQueue;
 }
 ```
 
@@ -220,11 +206,11 @@ const request = gts.create('query' | 'mutation');
 ```
 
 ### GraphiosTsRequest
-GraphiosTsRequest is request class instance created by GraphiosTs. It hold all logic to define GraphQl operation. Each instance can perform only one operation at time (query or mutation).
+GraphiosTsRequest is request class instance created by GraphiosTs. It holds all logic to define GraphQl operation. Each instance can perform only one operation at a time (query or mutation).
 
 #### GraphiosTsRequest Instance methods
 ```typescript
-//Gql command composer. Defines GraphQl command. Uses GraphiosTs payload composition ( Details below )
+//Gql command composer. Defines GraphQl command. Uses GraphiosTs payload composition.
 request.gql(payloadDefinition);
 //Returns GraphQl command as a string
 request.parse();
@@ -239,7 +225,7 @@ request.refetch();
 {
     //Axios request config 
     axios?:AxiosRequestConfig;
-    //If true, request will be added to batch queue and merged with other requests.
+    //If true, request will be added to batch queue and merged with other requests. It requires to have initialized Batch Queue
     batched?:boolean;
 }
 ```

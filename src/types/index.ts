@@ -1,41 +1,37 @@
 import { AxiosRequestConfig } from "axios";
 import { GraphiosTsRequest } from "../graphiosTsRequest";
+import { GraphiosTsQueue } from "../graphiosTsQueue";
 
 export type GraphiosTsRequestSettings = {
     axios?:AxiosRequestConfig;
     batched?:boolean;
 }
 
-export type GraphiosTsSettings = {
-    /**
-     * Turns on batch requests. If it is off, grouped graphQl request is still possible, but it will not be merged with others.
-     */
-    batch?:boolean;
-    /**
-     * Maximum number, which can be batched in one request. Default is 5.
-     */
-    batchBuffer?:number;
-    /**
-     * Timeframe when Graphios will wait if another requests will not occure in a queue. 10ms is default value.
-     */
-    batchTimeout?:number;
-    /**
-     * Type of content
-     */
-    contentType?:'application/json' | string;
+export interface GraphiosTsRestSettings{
     /**
      * Axios settings. These settings will be merged with query settings and pased to the Axios. If axios has any default setting, this can override it.
      */
-    axios?:AxiosRequestConfig;
+    axios:AxiosRequestConfig;
     /**
      * If server returns status >= 500, it will try again.
      * This specifies how many times should it try. If 0, it will not refetch at all.
      */
-    refetch?:number;
+    refetch:number;
     /**
      * Pause in ms before another refetch try.
      */
-    refetchPause?:number;
+    refetchPause:number;
+}
+
+export interface GraphiosTsSettings extends GraphiosTsRestSettings{
+    /**
+     * Type of content
+     */
+    contentType:'application/json' | string;
+    /**
+     * Batch queue object
+     */
+    queue?:GraphiosTsQueue;
 }
 
 export type Str<T> = T extends string?T:string;
@@ -59,8 +55,16 @@ export type GraphTsQueueItem = {
 export type GraphTsQueue = {
     query:GraphTsQueueItem[];
     mutation:GraphTsQueueItem[];
-    subscription:GraphTsQueueItem[];
 }
 
 export type Resolve = (value?:any)=>any;
 export type Reject = (reason?:any)=>any;
+
+export type GraphiosTsCallback = (req:GraphiosTsRequest<any,any>)=>any;
+
+export type DirectGraphiosTsRequest = (
+    query:string,
+    type:string | symbol | number,
+    resolve:Resolve,
+    reject:Reject
+)=>void;

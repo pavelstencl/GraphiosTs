@@ -1,8 +1,9 @@
-import { GraphiosTsSettings, GraphTsQueue, GraphiosTsRequestSettings, GraphQlError, GraphTsQueueItem, Resolve, Reject } from "./types";
-import { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import { GraphiosTsSettings, GraphiosTsRequestSettings, GraphQlError, Resolve, Reject } from "./types";
+import { AxiosInstance, AxiosError, AxiosRequestConfig } from "axios";
 import { GraphiosTsRequest } from "./graphiosTsRequest";
 import { GraphTsSchema } from "./types/schema";
-import { GraphiosTsParseError, GraphiosTsGenericError, GraphiosTsResponseError, GraphiosTsDataError, GraphiosTsNetworkError, GraphiosTsGenericNetworkError } from "./errors";
+import { GraphiosTsResponseError, GraphiosTsDataError, GraphiosTsNetworkError, GraphiosTsGenericNetworkError } from "./errors";
+import { getSettings } from "./utils/getSettings";
 
 
 /**
@@ -13,68 +14,55 @@ import { GraphiosTsParseError, GraphiosTsGenericError, GraphiosTsResponseError, 
  */
 
 export class GraphiosTs<T extends GraphTsSchema>{
-    private queue:GraphTsQueue;
-    private countdown:boolean;
     private settings:GraphiosTsSettings;
     /**
      * @param axios Instance of Axios. For more information visit [GitHub](https://github.com/axios/axios)
      * @param settings GraphiosTs settings
      */
-    constructor(private axios:AxiosInstance,settings?:GraphiosTsSettings){
+    constructor(private axios:AxiosInstance,settings?:Partial<GraphiosTsSettings>){
         this.axios = axios;
         this.settings = {...{
             'axios':{},
-            'batch':false,
-            'batchBuffer':5,
-            'batchTimeout':10,
-            'contentType':'application/json'
+            'contentType':'application/json',
+            'refetch':0,
+            'refetchPause':100
         },...settings};
-        this.queue = {
-            query:[],
-            mutation:[],
-            subscription:[]
+        this.init();
+    }
+    private init(){
+        //Register queue if exists
+        if(this.settings.queue){
+            this.settings.queue.register(this.req.bind(this));
         }
-        this.countdown = false;
     }
     /**
-     * Creates new request object.
+     * Creates new GraphQL request object.
      * @param operation name of GraphQl operation type
      */
     public create<U extends keyof T>(operation:U,name?:string){
-        return new GraphiosTsRequest<T[U],any>(name,operation,this.manageRequestData.bind(this));
+        return new GraphiosTsRequest<T[U],any>(name,operation,this.performRequest.bind(this));
     }
-
-    /*public createTpl<U extends keyof T,K extends keyof T[U]>(settings:{
-        operation:U,
-        operationName:string,
-        action:K
-    },){
-
-    }*/
     /**
      * Callback method for GraphiosTsRequest class
      * @param req 
      */
-    private manageRequestData(req:GraphiosTsRequest<any,any>){
+    private performRequest(req:GraphiosTsRequest<any,any>){
         return new Promise((resolve,reject)=>{
-            //If batch request is required.
-            if( req.settings && 
-                req.settings.batched === true && 
-                this.settings.batch === true
-            ){
-                this.addToQueue(req,resolve,reject);
+            //If batch send it to Queue
+            if(getSettings(req.settings,'batched') && this.settings.queue){
+                this.settings.queue.add(req,resolve,reject);
             //Normal request
             }else{
-                return this.request(
+                return this.req(
                     req.parse(),
                     req.operation,
                     resolve,reject,
                     req.settings
                 );
             }
-        })
+        });
     }
-    private request(
+    private req(
         query:string,
         type:string | symbol | number,
         resolve:Resolve,
@@ -82,7 +70,10 @@ export class GraphiosTs<T extends GraphTsSchema>{
         settings?:GraphiosTsRequestSettings
     ){
         //Get axios config
-        let axiosConfig = this.mergeSettings(settings);
+        let axiosConfig = {
+            ...this.settings && this.settings.axios?this.settings.axios:{},
+            ...settings && settings.axios?settings.axios:{}
+        };
         //Header modification
         axiosConfig.headers = {
             ...axiosConfig.headers,
@@ -178,134 +169,6 @@ export class GraphiosTs<T extends GraphTsSchema>{
             reject(
                 new GraphiosTsDataError('Response does not contain any relevant data.')
             );
-        }
-    }
-    /**
-     * Merges default settings with request settings. It merges axios only.
-     */
-    private mergeSettings(reqSet?:GraphiosTsRequestSettings){
-        return {...this.settings && this.settings.axios?this.settings.axios:{},...reqSet && reqSet.axios?reqSet.axios:{}}
-    }
-    /**
-     * Puts request into coresponding queue.
-     * @param req Request
-     * @param resolve Resolver
-     * @param reject Rejector
-     */
-    private addToQueue(
-        req:GraphiosTsRequest<any,any>,
-        resolve:Resolve,
-        reject:Reject
-    ){
-        if(['query','mutation'].includes(req.operation)){
-            this.queue[req.operation].push({
-                resolve:resolve,
-                reject:reject,
-                req:req
-            });
-        }else{
-            throw new GraphiosTsParseError('01','Unknown GraphQl operation '+req.operation);
-        }
-        this.startCountdown();
-    }
-    /**
-     * Opens a timeframe in which GraphiosTs is waiting for another request to be merged.
-     */
-    private startCountdown(){
-        if(this.countdown !== true){
-            this.countdown = true;
-            setTimeout(()=>{
-                this.processQueue('mutation');
-            },this.settings.batchTimeout || 10)
-        }
-    }
-    /**
-     * Gets request from a queue, merges them and calls server
-     * @param name 
-     */
-    private processQueue(name:keyof GraphTsQueue){
-        //Clear countdown
-        this.countdown = false;
-        //Get n number of request from a queue
-        const queue = this.getQueueItems(name,this.settings.batchBuffer || 5);
-        if(queue.length !== 0){
-            const reqField:string[] = [];
-            const nameField:string[] = [];
-            /**
-             * Get data from all selected GraphTsRequests
-             */
-             //Get columns
-            for (let column = 0; column < queue.length; column++) {
-                const c = queue[column].req.parse(true);
-                nameField.push(queue[column].req._name || 'UNKNOWN');
-                //Get rows
-                for (let row = 0; row < c.length; row++) {
-                    const req = c[row];
-                    let alias;
-                    if(/^[a-zA-Z0-9_]+[:]{1}[a-zA-Z0-9_]+/.test(req)){
-                        alias = ''
-                    }else{
-                        alias = req.match(/^[a-zA-Z0-9_]+/)+':';
-                    }
-                    reqField.push(`c${column}__r${row}__${alias}${req}`);
-                }
-            }
-            //Create request string
-            const query = `${name} ${'COMPOSITION__'+nameField.join('__')}{${reqField.join(',')}}`;
-            //Call server
-            new Promise((resolve,reject)=>{
-                this.request(query,name,resolve,reject);
-            }).then((data:{[key:string]:any})=>{
-                if(typeof data === 'object' && data !== null){
-                    const results:{[key:string]:any} = {};
-                    for (const key in data) {
-                        const field = key.match(/^c([0-9]+)__r([0-9]+)__(.*)/);
-                        if(field){
-                            results[field[1]] = {...results[field[1]],...{[field[3]]:data[key]}};
-                        }
-                    }
-                    this.sendAllData(queue,results);
-                }else{
-                    this.sendAllReject(queue,new GraphiosTsDataError('It seems there are no available data.'));
-                }
-            }).catch((e:GraphiosTsGenericNetworkError | GraphiosTsNetworkError)=>{
-                this.sendAllReject(queue,e);
-            })
-        }
-        //Process next n requests or jump to another operation
-        if(this.queue[name].length !== 0){
-            this.processQueue(name);
-        }else if(name === 'mutation'){
-            this.processQueue('query');
-        }
-    }
-    private sendAllReject(queue:GraphTsQueueItem[],e:any){
-        for (let i = 0; i < queue.length; i++) {
-            queue[i].reject(e);
-        }
-    }
-    private sendAllData(queue:GraphTsQueueItem[],data:{[key:string]:any}){
-        for (let i = 0; i < queue.length; i++) {
-            if(data[i.toString()]){
-                queue[i].resolve(data[i.toString()]);
-            }else{
-                queue[i].reject(new GraphiosTsDataError('It seems no data has been returned from batched request'));
-            }
-        }
-    }
-    private getQueueItems(name:keyof GraphTsQueue,amount:number){
-        if(this.queue[name].length === 0){
-            return [];
-        }else{
-            const out:GraphTsQueueItem[] = [];
-            amount = this.queue[name].length >= amount?amount:this.queue[name].length;
-            for (let i = 0; i < amount; i++) {
-                const el = this.queue[name].shift();
-                if(el){
-                    out.push(el);
-                }
-            }
-            return out;
         }
     }
 }
