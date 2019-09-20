@@ -1,3 +1,8 @@
+import { GraphiosTs } from "..";
+import swapi from "../../.gql/swapi.graphql";
+import Axios from "axios";
+import { isFragment, getFragment } from "../utils/isFragment";
+
 /**
  * GRAPHQL SCHEMA
  */
@@ -71,7 +76,7 @@ export type ResultPayload<T extends RequestPayload<any>,S extends GraphTsPayload
     S[K] extends WithArray<Scalars>?
     S[K]:
     isGraphTsObject<S[K]> extends never?ResultAlias<T[K],S>:
-    isGraphTsObject<S[K]>['__type'] extends 'fragment'?ResultObject<T[K],isGraphTsObject<S[K]>> | void:
+    isGraphTsObject<S[K]>['__type'] extends 'fragment'?ResultObject<T[K],isGraphTsObject<S[K]>> | '__fragment':
     ResultObject<T[K],isGraphTsObject<S[K]>>:
     never
 }
@@ -102,3 +107,7 @@ export type RestSchema = {
 }
 
 export type getPayload<T>= T extends {[key:string]:any}?T['payload'] extends undefined?never:T['payload']:never;
+
+export type GraphTsSimplify<T> = T extends {[key:string]:any}?{
+    [K in keyof T]:GraphTsSimplify<T[K]>
+}:T;

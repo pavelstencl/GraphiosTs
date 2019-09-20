@@ -1,6 +1,6 @@
 import { JSON_ARGS_TO_GQL_REGEXP } from "./config";
 import { GraphiosTsRequestSettings, GraphiosTsCallback } from "./types";
-import { GraphTsPayload, RequestPayload, Validate, ResultPayload, GraphTsObject } from "./types/schema";
+import { GraphTsPayload, RequestPayload, Validate, ResultPayload, GraphTsObject, GraphTsSimplify } from "./types/schema";
 import { GraphiosTsGenericError, GraphiosTsParseError } from "./errors";
 
 
@@ -23,7 +23,7 @@ export class GraphiosTsRequest<S extends GraphTsPayload,X> {
     /**
      * Sends request to a server
      */
-    public request(settings?:GraphiosTsRequestSettings):Promise<ResultPayload<X,S>>{
+    public request(settings?:GraphiosTsRequestSettings):Promise<GraphTsSimplify<ResultPayload<X,S>>>{
         if(!this.payload){
             throw new GraphiosTsGenericError('02','Payload missing. Call `gql` method first')
         }
