@@ -48,17 +48,21 @@ export class GraphiosTs<T extends GraphTsSchema>{
      */
     private performRequest(req:GraphiosTsRequest<any,any>){
         return new Promise((resolve,reject)=>{
-            //If batch send it to Queue
-            if(getSettings(req.settings,'batched') && this.settings.queue){
-                this.settings.queue.add(req,resolve,reject);
-            //Normal request
-            }else{
-                return this.req(
-                    req.parse(),
-                    req.operation,
-                    resolve,reject,
-                    req.settings
-                );
+            try{
+                //If batch send it to Queue
+                if(getSettings(req.settings,'batched') && this.settings.queue){
+                    this.settings.queue.add(req,resolve,reject);
+                //Normal request
+                }else{
+                    return this.req(
+                        req.parse(),
+                        req.operation,
+                        resolve,reject,
+                        req.settings
+                    );
+                }
+            }catch(e){
+                reject(e);
             }
         });
     }
@@ -123,27 +127,28 @@ export class GraphiosTs<T extends GraphTsSchema>{
         //If all tries are left, throw an Error
         if(countdown === 0){
             if(lastMessage && lastMessage instanceof Error){
-                reject(new GraphiosTsNetworkError(lastMessage.response?lastMessage.response.status.toString()||'01': '01',lastMessage));
+               reject(new GraphiosTsNetworkError(lastMessage.response?lastMessage.response.status.toString()||'01': '01',lastMessage));
             }else{
-                reject(new GraphiosTsGenericNetworkError('Server is not responding'));
+               reject(new GraphiosTsGenericNetworkError('Server is not responding'));
             }
+        }else{
+            //Delay of next request in ms.
+            const delay = this.settings.refetchPause || 0;
+            setTimeout(()=>{
+                this.axios.request(axiosConfig).then((response)=>{
+                    this.validateResponse(response.data,resolve,reject);
+                }).catch((e)=>{
+                    //If server is not responding properly
+                    if(e.response && e.response.status >= 500){
+                        //Trigger another try
+                        this.refetch(axiosConfig,resolve,reject,countdown-1,e);
+                    }else{
+                        //Set number of tries to 0 -> evaluate error.
+                        this.refetch(axiosConfig,resolve,reject,0,e);
+                    }
+                });
+            },delay);
         }
-        //Delay of next request in ms.
-        const delay = this.settings.refetchPause || 0;
-        setTimeout(()=>{
-            this.axios.request(axiosConfig).then((response)=>{
-                this.validateResponse(response.data,resolve,reject);
-            }).catch((e)=>{
-                //If server is not responding properly
-                if(e.response && e.response.status >= 500){
-                    //Trigger another try
-                    this.refetch(axiosConfig,resolve,reject,countdown-1,e);
-                }else{
-                    //Set number of tries to 0 -> evaluate error.
-                    this.refetch(axiosConfig,resolve,reject,0,e);
-                }
-            });
-        },delay);
     }
     /**
      * Validates incoming data, if it is GraphQl response, or if there are any GraphQl errors in it

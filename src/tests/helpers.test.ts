@@ -3,9 +3,11 @@ import { swapi } from "../../.gql/swapi.graphql"
 
 describe('Helpers test',()=>{
     it('should create fragment',()=>{
-        expect(new GtsFragment<swapi.Film['payload']>().data({'id':true})).toStrictEqual({'id':true})
+        const res = new GtsFragment<swapi.Film['payload']>().data({'id':true});
+        expect(res).toStrictEqual({'id':true})
     });
     it('should create alias',()=>{
-        expect(new GtsAlias<swapi.Film['payload']>().data({id:true})).toStrictEqual({__type:'alias',payload:{id:true}});
-    })
+        const res = new GtsAlias<swapi.Film['payload']>().data({id:true});
+        expect(res).toStrictEqual({__type:'alias',payload:{id:true}});
+    });
 })

@@ -17,7 +17,11 @@ describe('Queue',()=>{
     })
     afterEach(()=>{
         mock.reset()
-    })
+    });
+    afterAll(done => {
+        // Closing the DB connection allows Jest to exit successfully.
+        done();
+      });
     it('Sends one mutation request and two query requests',(done)=>{
         //Setting mock reply
         mock.onAny().reply((config)=>{

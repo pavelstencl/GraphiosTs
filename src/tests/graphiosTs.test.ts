@@ -16,14 +16,14 @@ describe('Test connection',()=>{
         mock = new Mock(axios);
     })
     afterEach(()=>{
-        mock.reset()
-    })
+        mock.reset();
+    });
     it('Sends simple request',(done)=>{
         mock.onAny().reply((config)=>{
             if(config.data === '{"query":"query{allFilms{id}}"}'){
                 return[200,{data:{allFilms:[{id:'foo'}]}}]
             }else{
-                return[500];
+                return[505];
             }
         });
         gts.create('query').gql({
@@ -37,6 +37,7 @@ describe('Test connection',()=>{
             done();
         });
     });
+    
     it('Gets network error',(done)=>{
         mock.onAny().reply(500);
         gts.create('query').gql({
@@ -50,6 +51,7 @@ describe('Test connection',()=>{
             done();
         })
     });
+    
     it('Gets empty data',(done)=>{
         mock.onAny().reply(200);
         gts.create('query').gql({
